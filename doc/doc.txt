@@ -1,0 +1,20 @@
+
+### Criar o Projeto
+ng new dani-nails
+
+
+#### Tipo de Estilização
+scss
+
+### Instlar o Angular Material
+ng add @angular/material
+
+
+### Iniciar a aplicação abrindo o navegador
+ng s -o
+
+### gerar modulo com module.rounting 
+ng g m usuarios/usuarios --routing
+
+### Gerar componente 
+ng g c usuarios/components/registrar
