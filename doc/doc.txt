@@ -18,3 +18,4 @@ ng g m usuarios/usuarios --routing
 
 ### Gerar componente 
 ng g c usuarios/components/registrar
+
