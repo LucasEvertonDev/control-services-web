@@ -58,13 +58,15 @@ export class AppClient {
     }
 
     protected handleError<T>(error: HttpErrorResponse): ResponseDto<T> {
-        if (error.error) {
+        if (error.error && error.error.error) {
             var response = error.error as ResponseDto<T>;
 
             this.snackbarService.ShowErrors(response.error.messages);
 
             return response;
         }
+
+        this.snackbarService.ShowError("Não foi possível se comunicar com a api!");
 
         return { 
             error: { details: error.error, messages: ["Algo inesperado aconteceu por favor contate o administrador do sistema"] },
