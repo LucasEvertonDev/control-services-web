@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class RegistrarComponent implements OnInit {
   public registerForm: FormGroup = new FormGroup([]);
 
-  constructor(private fb: FormBuilder) { 
+  public constructor(private fb: FormBuilder) { 
     this.registerForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(10), this.customNameValidator]],
       email: ['', [Validators.required, Validators.email]],
@@ -20,17 +20,9 @@ export class RegistrarComponent implements OnInit {
     this.registerForm.addValidators(this.passwordMatchValidator());
   }
 
-  ngOnInit(): void {
-    
-  }
+  public ngOnInit(): void { }
 
-  customNameValidator(control: FormControl) {
-    const value: string = control.value || '';
-    const isValid = value.split(' ').length > 1;
-    return isValid ? null : { invalidName: true };
-  }
-
-  onSubmit() {
+  public onSubmit() {
     if (this.registerForm.valid) {
       console.log('Formulário válido:', this.registerForm.value);
       // Implemente a lógica para enviar os dados ao servidor ou fazer outras operações necessárias
@@ -39,7 +31,13 @@ export class RegistrarComponent implements OnInit {
     }
   }
 
-  public passwordMatchValidator(): any {
+  private customNameValidator(control: FormControl) {
+    const value: string = control.value;
+    const isValid = value ? value.split(' ').length > 1 : true;
+    return isValid ? null : { invalidName: true };
+  }
+
+  private passwordMatchValidator(): any {
     return (group: FormGroup): void => {
       const senha = group.get('senha');
       const confirmarSenha = group.get('confirmarSenha');
