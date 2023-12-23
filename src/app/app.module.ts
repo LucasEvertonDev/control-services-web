@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from './shared/theme/module/layout.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingInterceptor } from './core/interceptors/loading.inteceptor';
+import { LoadingService } from './shared/services/loading.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,11 @@ import { LayoutModule } from './shared/theme/module/layout.module';
     BrowserAnimationsModule,
     LayoutModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true  },
+    LoadingService,
+    MatSnackBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

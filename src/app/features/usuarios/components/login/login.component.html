@@ -13,7 +13,14 @@
         <mat-form-field appearance="outline">
           <mat-label>Login</mat-label>
           <input #inputLogin matInput placeholder="Login" formControlName="username">
-          <mat-error *ngIf="formLogin.get('username')?.touched && formLogin.get('username')?.hasError('required')">Login é obrigatório</mat-error>
+          <mat-error 
+            *ngIf="formLogin.get('username')?.touched && formLogin.get('username')?.hasError('required')">
+              Login é obrigatório
+          </mat-error>
+          <mat-error
+            *ngIf="formLogin.get('username')?.touched && formLogin.get('username')?.hasError('email')">
+              Digite um email válido.
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -21,8 +28,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Senha</mat-label>
           <input type="password" matInput formControlName="password" autocomplete="off">
-          <mat-error *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('required')">Senha é obrigatória</mat-error>
-          <mat-error *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('minlength')">Senha deve ter no mínimo 6 caracteres</mat-error>
+          <mat-error *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('required')">Senha
+            é obrigatória</mat-error>
+          <mat-error
+            *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('minlength')">Senha deve
+            ter no mínimo 8 caracteres</mat-error>
         </mat-form-field>
       </div>
 

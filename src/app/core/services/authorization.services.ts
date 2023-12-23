@@ -1,3 +1,5 @@
+import { LoginResponse } from './../../features/usuarios/models/login.response';
+import { ResponseDto } from './../api/models/response.model';
 import { Injectable, Injector } from "@angular/core";
 import { BehaviorSubject, Observable, map } from "rxjs";
 
@@ -7,8 +9,10 @@ import { BehaviorSubject, Observable, map } from "rxjs";
 export class AuthorizationService {
     private subjectLogin: BehaviorSubject<any> = new BehaviorSubject(false);
 
-    public login() {
-        sessionStorage.setItem('token', 'supostoToken');
+    public constructor() {}
+
+    public login(response: ResponseDto<LoginResponse>) : void {
+        sessionStorage.setItem('token', response.content.access_token);
     }
 
     public logOut(): void {
