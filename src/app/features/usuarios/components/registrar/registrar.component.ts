@@ -1,5 +1,9 @@
+import { SnackBarService } from './../../../../shared/services/snackbar.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UsuarioService } from '../../services/usuarios.service';
+import { take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar',
@@ -9,7 +13,11 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class RegistrarComponent implements OnInit {
   public registerForm: FormGroup = new FormGroup([]);
 
-  public constructor(private fb: FormBuilder) { 
+  public constructor(private fb: FormBuilder,
+    private usuarioService: UsuarioService,
+    private snackBarService: SnackBarService,
+    private router: Router) {
+
     this.registerForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(10), this.customNameValidator]],
       email: ['', [Validators.required, Validators.email]],
@@ -24,10 +32,19 @@ export class RegistrarComponent implements OnInit {
 
   public onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Formulário válido:', this.registerForm.value);
-      // Implemente a lógica para enviar os dados ao servidor ou fazer outras operações necessárias
-    } else {
-      console.log('Formulário inválido. Corrija os erros antes de enviar.');
+      this.usuarioService
+        .createUser({
+          email: this.registerForm.value.email,
+          nome: this.registerForm.value.nome,
+          senha: this.registerForm.value.senha
+        })
+        .pipe(take(1))
+        .subscribe((response) => {
+          if (response.success) {
+            this.router.navigateByUrl('/auth');
+            this.snackBarService.ShowSucess("Usuário cadastrado com sucesso.")
+          }
+        });
     }
   }
 

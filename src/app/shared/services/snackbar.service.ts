@@ -38,9 +38,9 @@ export class SnackBarService {
 
     public ShowSucess(message: string, durationInSeconds?: number) {
         this.snackBar.open(message, "", {
-            horizontalPosition: 'right',
+            horizontalPosition: 'center',
             verticalPosition: 'top',
-            duration: (durationInSeconds ?? 5) * 1000,
+            duration: (durationInSeconds ?? 10) * 1000,
             panelClass: ['snack-background-green']
         });
     }
