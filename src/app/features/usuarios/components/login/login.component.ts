@@ -1,7 +1,7 @@
-// login.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthorizationService } from 'src/app/core/services/authorization.services';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +9,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  public formLogin!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  public constructor(private fb: FormBuilder,
+    private router: Router,
+    private authorization: AuthorizationService) { }
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
+  public ngOnInit(): void {
+    this.formLogin = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Formulário válido:', this.loginForm.value);
+  public onSubmit() {
+    if (this.formLogin.valid) {
+      console.log('Formulário válido:', this.formLogin.value);
       // Implemente a lógica de autenticação aqui
+
+      this.authorization.login();
+
+      this.router.navigate(['/home/index'], { state: { prevPage: '/home/index' } });
     } else {
       console.log('Formulário inválido. Corrija os erros antes de enviar.');
     }

@@ -1,31 +1,41 @@
-<div class="login-container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline">
-                    <mat-label>Login</mat-label>
-                    <input matInput autocomplete="off" formControlName="username">
-                    <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-                        O login é obrigatório.
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Senha</mat-label>
-                    <input matInput autocomplete="off" type="password" formControlName="password">
-                    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-                        A senha é obrigatória.
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-                        A senha deve ter pelo menos 6 caracteres.
-                    </mat-error>
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</div>
+<div class="card">
+    <div class="card-body">
+      <!-- Logo -->
+      <div class="app-brand justify-content-center">
+          <h2>Micro School</h2>
+      </div>
+      <!-- /Logo -->
+      <h4 class="mb-2">Bem vindo ao Micro School! 👋</h4>
+      <p class="mb-4">Por favor informe suas credencias para começar a aventura!</p>
+  
+      <form class="form" [formGroup]="formLogin" *ngIf="formLogin">
+        <div class="mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Login</mat-label>
+            <input #inputLogin matInput placeholder="Login" formControlName="username">
+            <mat-error  *ngIf="formLogin.get('username')?.hasError('required')">Login é obirgatório</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="mb-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Senha</mat-label>
+              <input type="password" matInput formControlName="password" autocomplete="off">
+              <mat-error *ngIf="formLogin.get('password')?.hasError('required')">Senha é obrigatório</mat-error>
+              <mat-error *ngIf="formLogin.get('password')?.hasError('minlength')">Senha deve ter no mínimo 6 caracteres</mat-error>
+            </mat-form-field>
+        </div>
+  
+        <div class="mb-3">
+          <button style="width: 100%;height: 56px;" class mat-raised-button color="primary" [disabled]="!formLogin.valid" (click)="onSubmit()">Sign in</button>
+        </div>
+      </form>
+  
+      <p class="text-center">
+        <span>Novo na plataforma? </span>
+        <a routerLink="/auth/register" >
+          <span>Crie sua conta.</span>
+        </a>
+      </p>
+    </div>
+  </div>

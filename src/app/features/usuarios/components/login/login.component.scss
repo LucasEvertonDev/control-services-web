@@ -1,25 +1,16 @@
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  mat-card {
-    max-width: 400px;
-    width: 100%;
-  }
-  
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
+.full-width {
   button {
     width: 100%;
-    height: 50px !important;
+    height: 50px;
   }
 
-  mat-card-header {
-    margin-bottom: 30px;
-  }
+  width: 100%;
+}
+
+.flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

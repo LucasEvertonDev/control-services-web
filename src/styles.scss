@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+mat-form-field:not(.mat-mdc-paginator-page-size-select) {
+    width: 100% !important;
+
+    margin-bottom: 4px !important;
+    margin-top: 4px !important;
+}

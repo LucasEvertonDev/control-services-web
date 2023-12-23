@@ -1,0 +1,22 @@
+/* app-sidenav/app-sidenav.component.scss */
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav-content {
+  padding: 20px;
+}
+
+.mat-nav-list a {
+  text-decoration: none;
+  color: black;
+}
+
+.mat-nav-list a:hover {
+  background-color: #e0e0e0;
+}
