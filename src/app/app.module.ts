@@ -9,6 +9,7 @@ import { LayoutModule } from './shared/theme/module/layout.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingInterceptor } from './core/interceptors/loading.inteceptor';
 import { LoadingService } from './shared/services/loading.service';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { LoadingService } from './shared/services/loading.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true  },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true  },
     LoadingService,
     MatSnackBar
   ],
