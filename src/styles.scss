@@ -1,3 +1,10 @@
+
+@use '@angular/material' as mat;
+
+.mat-form-custom {
+    @include mat.all-component-densities(-2.6);
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
@@ -33,4 +40,28 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
     span {
         color: white !important;
     }
+}
+
+
+.botoes {
+    text-align: right;
+
+    button, a {
+        min-width: 120px;
+        min-height: 40px;
+    }
+
+    button, a:not(:first-child) { 
+        margin-left: 4px;
+    } 
+
+    button, a:not(:last-child) { 
+        margin-right: 4px;
+    } 
+}
+
+.table-responsive {
+    border-top: 0.7px solid #ccc;
+    border-left: 0.7px solid #ccc;
+    border-right: 0.7px solid #ccc;
 }

@@ -9,6 +9,11 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'clientes',
+    loadChildren: () => import('./features/clientes/cliente.module').then(m => m.ClienteModule),
+    canActivate: [authGuard]
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./features/usuarios/usuarios.module').then(m => m.UsuariosModule),
   },

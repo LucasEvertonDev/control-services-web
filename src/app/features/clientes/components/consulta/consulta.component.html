@@ -1,0 +1,100 @@
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home" >Dashboard</a> / </span>Clientes
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Consultar Clientes</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>CPF</mat-label>
+                    <input matInput [formControl]="formConsulta.controls.cpf" autocomplete="off" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Nome</mat-label>
+                    <input matInput [formControl]="formConsulta.controls.nome" autocomplete="off" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Situações</mat-label>
+                    <mat-select formControlName="situacao">
+                      <mat-option *ngFor="let situacao of situacoes" [value]="situacao.valor">
+                        {{ situacao.descricao }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <mat-divider class="mb-4 mt-4"></mat-divider>
+            <div class="row mb-3">
+                <div class="col-12 mb-3 botoes">
+                    <button mat-raised-button color="primary">
+                        Buscar
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button routerLink="/courses/create" mat-raised-button color="accent">
+                        Novo
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div>
+            <div class="mb-3 table-div table-responsive mat-elevation-z1">
+                <table class="table table-round-corner">
+                    <thead class="table">
+                        <tr>
+                            <th colspan="5">
+                                Nome
+                            </th>
+                            <th colspan="3">
+                                Data Inicio
+                            </th>
+                            <th colspan="3">
+                                Data Fim
+                            </th>
+                            <th colspan="1">
+                                Data Fim
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of []">
+                            <!-- <td colspan="5">
+                                {{item.name}}
+                            </td>
+                            <td colspan="3">
+                                {{ item.startDate | date: 'dd/MM/yyyy hh:mm:ss' }}
+                            </td>
+                            <td colspan="3">
+                                {{item.endDate | date: 'dd/MM/yyyy hh:mm:ss' }}
+                            </td>
+                            <td colspan="1">
+                                <a class="btn btn-default" routerLink='/courses/edit/{{item.id}}' >
+                                    <span class="tf-icons bx bx-edit"></span>
+                                </a>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="true">
+                            <td [colSpan]="12" style="text-align: center;">
+                                Sem resultados para a consulta
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div *ngIf="items" class="pb-2">
+                <mat-paginator [length]="paginationResult.totalElements" [pageSize]="paginationResult.pageSize"
+                    [pageIndex]="paginationResult.pageNumber - 1" [pageSizeOptions]="[2, 10, 25, 100]"
+                    aria-label="Select page" (page)="searchCourses($event)">
+                </mat-paginator>
+            </div> -->
+        </div>
+    </div>
+</div>

@@ -8,6 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarService } from '../services/snackbar.service';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+import { MatOptionModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select'
 
 @NgModule({
   declarations: [],
@@ -21,6 +25,10 @@ import { SnackBarService } from '../services/snackbar.service';
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatDividerModule,
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   exports: [
     FormsModule,
@@ -31,6 +39,10 @@ import { SnackBarService } from '../services/snackbar.service';
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatDividerModule,
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [
     SnackBarService,
