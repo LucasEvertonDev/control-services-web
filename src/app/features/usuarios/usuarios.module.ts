@@ -11,7 +11,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { UsuariosRoutingModule } from './usuarios-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { AngularMaterialModule } from 'src/app/shared/modules/angular-material.module';
-
+import { LoginContantsService } from './services/login-contants.service';
+import { RegistarConstantsService } from './services/registrar-constants.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,8 @@ import { AngularMaterialModule } from 'src/app/shared/modules/angular-material.m
     AngularMaterialModule
   ],
   providers: [
+    LoginContantsService,
+    RegistarConstantsService,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {

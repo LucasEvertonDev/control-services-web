@@ -12,14 +12,12 @@
       <div class="mb-4">
         <mat-form-field appearance="outline">
           <mat-label>Login</mat-label>
-          <input #inputLogin matInput placeholder="Login" formControlName="username">
-          <mat-error 
-            *ngIf="formLogin.get('username')?.touched && formLogin.get('username')?.hasError('required')">
-              Login é obrigatório
+          <input #inputLogin matInput placeholder="Login" [formControl]="formLogin.controls.email">
+          <mat-error *ngIf="formLogin.controls.email.touched && formLogin.controls.email.hasError('required')">
+            {{LOGIN_CONSTS.EMAIL_OBRIGATORIO}}
           </mat-error>
-          <mat-error
-            *ngIf="formLogin.get('username')?.touched && formLogin.get('username')?.hasError('email')">
-              Digite um email válido.
+          <mat-error *ngIf="formLogin.controls.email.touched && formLogin.controls.email.hasError('email')">
+            {{LOGIN_CONSTS.EMAIL_INVALIDO}}
           </mat-error>
         </mat-form-field>
       </div>
@@ -27,12 +25,13 @@
       <div class="mb-4">
         <mat-form-field appearance="outline">
           <mat-label>Senha</mat-label>
-          <input type="password" matInput formControlName="password" autocomplete="off">
-          <mat-error *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('required')">Senha
-            é obrigatória</mat-error>
-          <mat-error
-            *ngIf="formLogin.get('password')?.touched && formLogin.get('password')?.hasError('minlength')">Senha deve
-            ter no mínimo 8 caracteres</mat-error>
+          <input type="password" matInput [formControl]="formLogin.controls.senha" autocomplete="off">
+          <mat-error *ngIf="formLogin.controls.senha.touched && formLogin.controls.senha.hasError('required')">
+            {{LOGIN_CONSTS.SENHA_OBRIGATORIA}}
+          </mat-error>
+          <mat-error *ngIf="formLogin.controls.senha.touched && formLogin.controls.senha.hasError('minlength')">
+            {{LOGIN_CONSTS.SENHA_MIN_LENGHT}}
+          </mat-error>
         </mat-form-field>
       </div>
 

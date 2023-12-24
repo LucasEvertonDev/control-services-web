@@ -5,7 +5,8 @@ import { Observable, delay, take } from 'rxjs';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { TokenModel } from './core/api/models/token.model';
+import { TokenModel } from './core/api/structure/token.model';
+import { AuthApiService } from './core/api/services/auth-endpoint/auth-api.service';
 
 @Component({
   selector: 'app-root',
@@ -16,44 +17,49 @@ export class AppComponent implements OnInit {
   public authorization: boolean = false;
   public loading: boolean = false;
 
-  public constructor(private authorizationService: AuthorizationService,
+  public constructor(
+    private authorizationService: AuthorizationService,
+    private authApiService: AuthApiService,
     private idleService: BnNgIdleService,
     private loadingService: LoadingService,
     private router: Router) { }
 
   public ngOnInit(): void {
     this.authorizationService.usuarioEstaLogado()
-      .subscribe((estaLogado) => {
-        this.authorization = estaLogado
-      });
+      .subscribe(estaLogado => this.authorization = estaLogado);
 
     this.loadingService.loadingSub
-      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
+      .pipe(delay(0))
+      .subscribe(loading =>this.loading = loading);
 
     this.authorizationService.getToken()
       .subscribe((token: TokenModel) => {
-        console.log("Inscrevi no token", new Date().toISOString())
+        console.log("Inscrição no token", new Date().toISOString())
+        
         if (token && token.refreshTokenInMS && token.refreshTokenInMS > 0) {
           setTimeout(() => {
-            this.authorizationService.RefreshToken().pipe(take(1)).subscribe();
+            this.authApiService.refreshToken().pipe(take(1)).subscribe();
           }, token.refreshTokenInMS);
+
         }
       });
 
-    this.idleService.startWatching(environment.inative_period_lost_sessiion).subscribe((isUserInactive: boolean) => {
-      if (isUserInactive) {
-        console.log('Session expired...');
+    this.idleService.startWatching(environment.inative_period_lost_sessiion)
+      .subscribe((isUserInactive: boolean) => {
         const currentRoute = this.router.url;
+
+        if (!isUserInactive) {
+          return;
+        }
+
+        console.log('Session expired...');
+ 
         if (currentRoute !== '/login') {
           console.log('Redirecting to login screen...')
           this.authorizationService.logOut();
           this.router.navigateByUrl('/auth');
           this.idleService.resetTimer();
         }
-      }
     });
   }
 }

@@ -1,4 +1,4 @@
-export interface ResponseDto<TResponseDto> {
+export interface DTO<TResponseDto> {
     success: boolean,
     httpCode: number,
     error: error,

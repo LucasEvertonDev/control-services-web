@@ -1,10 +1,11 @@
-import { TokenModel } from '../api/models/token.model';
-import { LoginResponse } from './../../features/usuarios/models/login.response';
-import { ResponseDto } from './../api/models/response.model';
+import { TokenModel } from '../api/structure/token.model';
+import { LoginResponse } from '../api/services/auth-endpoint/responses/login.response';
+import { DTO } from '../api/structure/response.model';
 import { Injectable, Injector } from "@angular/core";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import { jwtDecode } from "jwt-decode";
 import { AppClient } from '../api/app-client';
+import { RefreshTokenResponse } from '../api/services/auth-endpoint/responses/refreshtoken.response';
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +14,13 @@ export class AuthorizationService {
     private subjectLogin: BehaviorSubject<any> = new BehaviorSubject(false);
     private subjectToken: BehaviorSubject<TokenModel> = new BehaviorSubject({} as TokenModel);
     
-    public constructor(private appCliente: AppClient) {}
+    public constructor() {}
 
-    public login(response: ResponseDto<LoginResponse>) : void {
-
-        this.translateToken(response);
-        sessionStorage.setItem('token', response.content.access_token);
+    public login(response: DTO<LoginResponse>) : void {
+        if (response && response.success) {
+            this.translateToken(response);
+            sessionStorage.setItem('token', response.content.access_token);
+        }
     }
 
     public logOut(): void {
@@ -26,20 +28,13 @@ export class AuthorizationService {
         this.subjectLogin.next(false);
     }
 
-    public RefreshToken(): Observable<ResponseDto<LoginResponse>> {
-        console.log("atualizei no token", new Date().toISOString());
-       
-        return this.appCliente.HttpPost<LoginResponse>("auth/refreshtoken", {}, {}).pipe(
-            map(response => {
-                if (response.success) {
-                    this.translateToken(response);
-
-                    sessionStorage.setItem('token', response.content.access_token ?? "");
-                    this.subjectLogin.next(true);
-                }
-                return response;
-            }),
-        );
+    public refreshToken(response: DTO<RefreshTokenResponse>) {
+        console.log("Atualiza o token", new Date().toISOString());
+        if (response.success) {
+            this.translateToken(response);
+            sessionStorage.setItem('token', response.content.access_token ?? "");
+            this.subjectLogin.next(true);
+        }
     }
 
     public usuarioEstaLogado(): Observable<any> {
@@ -56,7 +51,7 @@ export class AuthorizationService {
         return this.subjectToken.asObservable();
     }
 
-    private translateToken(response: ResponseDto<LoginResponse>) {
+    private translateToken(response: DTO<LoginResponse>) {
         var token: TokenModel = jwtDecode(response.content.access_token);
 
         token.expirationFormated = response.content.expire_date;

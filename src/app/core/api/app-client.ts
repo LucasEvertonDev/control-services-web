@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, Injector } from "@angular/core";
 import { Observable, catchError, of } from "rxjs";
 import { environment } from "src/environments/environment";
-import { optionsHttp } from "./models/options.model";
-import { ResponseDto } from "./models/response.model";
+import { optionsHttp } from "./structure/options.model";
+import { DTO } from "./structure/response.model";
 import { SnackBarService } from "src/app/shared/services/snackbar.service";
 
 @Injectable({
@@ -17,8 +17,8 @@ export class AppClient {
         this.SetBaseUrl(environment.ApiUrl);
     }
 
-    public HttpGet<T>(endpoint: string, options?: optionsHttp): Observable<ResponseDto<T>> {
-        return this._httpClient.get<ResponseDto<T>>(`${this.urlApiBase}${endpoint}`, options)
+    public HttpGet<T>(endpoint: string, options?: optionsHttp): Observable<DTO<T>> {
+        return this._httpClient.get<DTO<T>>(`${this.urlApiBase}${endpoint}`, options)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     return of(this.handleError<T>(error));
@@ -26,8 +26,8 @@ export class AppClient {
             );
     }
 
-    public HttpPost<T>(endpoint: string, body: any, options?: optionsHttp): Observable<ResponseDto<T>> {
-        return this._httpClient.post<ResponseDto<T>>(`${this.urlApiBase}${endpoint}`, body, options)
+    public HttpPost<T>(endpoint: string, body: any, options?: optionsHttp): Observable<DTO<T>> {
+        return this._httpClient.post<DTO<T>>(`${this.urlApiBase}${endpoint}`, body, options)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     return of(this.handleError<T>(error));
@@ -35,8 +35,8 @@ export class AppClient {
             );
     }
 
-    public HttpPut<T>(endpoint: string, body: any, options?: optionsHttp): Observable<ResponseDto<T>> {
-        return this._httpClient.put<ResponseDto<T>>(`${this.urlApiBase}${endpoint}`, body, options)
+    public HttpPut<T>(endpoint: string, body: any, options?: optionsHttp): Observable<DTO<T>> {
+        return this._httpClient.put<DTO<T>>(`${this.urlApiBase}${endpoint}`, body, options)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     return of(this.handleError<T>(error));
@@ -44,8 +44,8 @@ export class AppClient {
             );
     }
 
-    public HttpDelete<T>(endpoint: string, options?: optionsHttp): Observable<ResponseDto<T>> {
-        return this._httpClient.delete<ResponseDto<T>>(`${this.urlApiBase}${endpoint}`, options)
+    public HttpDelete<T>(endpoint: string, options?: optionsHttp): Observable<DTO<T>> {
+        return this._httpClient.delete<DTO<T>>(`${this.urlApiBase}${endpoint}`, options)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     return of(this.handleError<T>(error));
@@ -57,9 +57,9 @@ export class AppClient {
         this.urlApiBase = baseUrl;
     }
 
-    protected handleError<T>(error: HttpErrorResponse): ResponseDto<T> {
+    protected handleError<T>(error: HttpErrorResponse): DTO<T> {
         if (error.error && error.error.error) {
-            var response = error.error as ResponseDto<T>;
+            var response = error.error as DTO<T>;
 
             this.snackbarService.ShowErrors(response.error.messages);
 

@@ -1,64 +1,43 @@
+import { RegistarConstantsService } from './../../services/registrar-constants.service';
+import { CreateUserRequest } from './../../../../core/api/services/usuarios-endpoint/requests/create-user.request';
 import { SnackBarService } from './../../../../shared/services/snackbar.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { UsuarioService } from '../../services/usuarios.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
+import { UsuarioApiService } from 'src/app/core/api/services/usuarios-endpoint/usuarios-api.service';
+import { FormRegistrar } from '../../models/form-registrar.model';
 
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.component.html',
   styleUrls: ['./registrar.component.scss']
 })
-export class RegistrarComponent implements OnInit {
-  public registerForm: FormGroup = new FormGroup([]);
+export class RegistrarComponent {
+  public registerForm: FormGroup<FormRegistrar>;
+  private createUserRequest!: CreateUserRequest;
 
-  public constructor(private fb: FormBuilder,
-    private usuarioService: UsuarioService,
+  public constructor(private formBuilder: FormBuilder,
+    private usuarioApiService: UsuarioApiService,
     private snackBarService: SnackBarService,
-    private router: Router) {
-
-    this.registerForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(10), this.customNameValidator]],
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
-      confirmarSenha: ['', Validators.compose([Validators.required])],
-    });
-
-    this.registerForm.addValidators(this.passwordMatchValidator());
+    private router: Router,
+    public REGISTER_CONSTS: RegistarConstantsService) {
+      this.registerForm = this.formBuilder.group<FormRegistrar>(new FormRegistrar(), {
+        validators: [FormRegistrar.senhaMatchValidator]
+      });
   }
-
-  public ngOnInit(): void { }
 
   public onSubmit() {
-    if (this.registerForm.valid) {
-      this.usuarioService
-        .createUser({
-          email: this.registerForm.value.email,
-          nome: this.registerForm.value.nome,
-          senha: this.registerForm.value.senha
-        })
-        .pipe(take(1))
-        .subscribe((response) => {
-          if (response.success) {
-            this.router.navigateByUrl('/auth');
-            this.snackBarService.ShowSucess("Usuário cadastrado com sucesso.")
-          }
-        });
-    }
-  }
+    this.createUserRequest = Object.assign('', this.createUserRequest, this.registerForm.value)
 
-  private customNameValidator(control: FormControl) {
-    const value: string = control.value;
-    const isValid = value ? value.split(' ').length > 1 : true;
-    return isValid ? null : { invalidName: true };
-  }
-
-  private passwordMatchValidator(): any {
-    return (group: FormGroup): void => {
-      const senha = group.get('senha');
-      const confirmarSenha = group.get('confirmarSenha');
-      confirmarSenha?.setErrors(senha?.value === confirmarSenha?.value ? null : { mismatch: true });
-    };
+    this.usuarioApiService
+      .createUser({...this.createUserRequest})
+      .pipe(take(1))
+      .subscribe((response) => {
+        if (response.success) {
+          this.router.navigateByUrl('/auth');
+          this.snackBarService.ShowSucess(this.REGISTER_CONSTS.USUARIO_CADASTRADO_COM_SUCESSO)
+        }
+      });
   }
 }

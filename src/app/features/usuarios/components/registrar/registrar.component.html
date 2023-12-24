@@ -7,18 +7,18 @@
             <div class="row">
                 <mat-form-field appearance="outline" class="mb-4">
                     <mat-label>Nome</mat-label>
-                    <input matInput formControlName="nome" autocomplete="off" />
+                    <input matInput [formControl]="registerForm.controls.nome" autocomplete="off" />
                     <mat-error
-                        *ngIf="registerForm.get('nome')?.touched && registerForm.get('nome')?.hasError('required')">
-                        O nome é obrigatório.
+                        *ngIf="registerForm.controls.nome.touched && registerForm.controls.nome.hasError('required')">
+                        {{REGISTER_CONSTS.NOME_OBRIGATORIO}}
                     </mat-error>
                     <mat-error
-                        *ngIf="registerForm.get('nome')?.touched && registerForm.get('nome')?.hasError('minlength')">
-                        O nome deve ter pelo menos 10 caracteres.
+                        *ngIf="registerForm.controls.nome.touched && registerForm.controls.nome.hasError('minlength')">
+                        {{REGISTER_CONSTS.NOME_MIN_LENGHT}}
                     </mat-error>
                     <mat-error
-                        *ngIf="registerForm.get('nome')?.touched && registerForm.get('nome')?.hasError('invalidName')">
-                        O nome deve ser composto.
+                        *ngIf="registerForm.controls.nome.touched && registerForm.controls.nome.hasError('invalidName')">
+                        {{REGISTER_CONSTS.NOME_COMPOSTO}}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -26,14 +26,14 @@
             <div class="row">
                 <mat-form-field appearance="outline" class="mb-4">
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" autocomplete="off" />
+                    <input matInput [formControl]="registerForm.controls.email" autocomplete="off" />
                     <mat-error
-                        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
-                        O email é obrigatório.
+                        *ngIf="registerForm.controls.email.touched && registerForm.controls.email.hasError('required')">
+                        {{REGISTER_CONSTS.EMAIL_OBRIGATORIO}}
                     </mat-error>
                     <mat-error
-                        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
-                        Digite um email válido.
+                        *ngIf="registerForm.controls.email.touched && registerForm.controls.email.hasError('email')">
+                        {{REGISTER_CONSTS.EMAIL_INVALIDO}}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -41,14 +41,14 @@
             <div class="row">
                 <mat-form-field appearance="outline" class="mb-4">
                     <mat-label>Senha</mat-label>
-                    <input matInput type="password" formControlName="senha" autocomplete="off" />
+                    <input matInput type="password" [formControl]='registerForm.controls.senha' autocomplete="off" />
                     <mat-error
-                        *ngIf="registerForm.get('senha')?.touched && registerForm.get('senha')?.hasError('required')">
-                        A senha é obrigatória.
+                        *ngIf="registerForm.controls.senha?.touched && registerForm.controls.senha?.hasError('required')">
+                        {{REGISTER_CONSTS.SENHA_OBRIGATORIA}}
                     </mat-error>
                     <mat-error
-                        *ngIf="registerForm.get('senha')?.touched && registerForm.get('senha')?.hasError('minlength')">
-                        A senha deve ter pelo menos 6 caracteres.
+                        *ngIf="registerForm.controls.senha?.touched && registerForm.controls.senha?.hasError('minlength')">
+                        {{REGISTER_CONSTS.SENHA_MIN_LENGHT}}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -56,10 +56,15 @@
             <div class="row">
                 <mat-form-field appearance="outline" class="mb-4">
                     <mat-label>Confirmar senha</mat-label>
-                    <input matInput type="password" formControlName="confirmarSenha" autocomplete="off" />
+                    <input matInput type="password" [formControl]='registerForm.controls.confirmarSenha'
+                        autocomplete="off" />
                     <mat-error
-                        *ngIf="registerForm.get('confirmarSenha')?.touched && registerForm.get('confirmarSenha')?.hasError('mismatch')">
-                        As senhas não coincidem.
+                        *ngIf="registerForm.controls.confirmarSenha.touched && registerForm.controls.confirmarSenha.hasError('required')">
+                        {{REGISTER_CONSTS.CONFIRMAR_SENHA_OBRIGATORIO}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="registerForm.controls.confirmarSenha.touched && registerForm.controls.confirmarSenha.hasError('mismatch')">
+                        {{REGISTER_CONSTS.SENHAS_NAO_CONFEREM}}
                     </mat-error>
                 </mat-form-field>
             </div>
