@@ -1,6 +1,4 @@
-export interface ClienteResponse {
-    id: string,
-    situacao: number,
+export interface CreateClienteRequest {
     cpf: string | null,
     nome: string,
     dataNascimento: Date | null,

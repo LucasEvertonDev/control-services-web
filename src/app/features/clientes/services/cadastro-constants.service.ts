@@ -8,4 +8,6 @@ export class CadastroConstantsService {
     public NOME_COMPOSTO: string = 'Nome deve ser composto';
     public CPF_INVALIDO: string = 'CPF inválido';
     public TELEFONE_INVALIDO: string = 'Telefone inválido';
+
+    public CLIENTE_CADASTRADO_SUCESSO: string = 'Cliente cadastrado com sucesso!';
 }

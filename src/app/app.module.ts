@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -10,7 +10,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingInterceptor } from './core/interceptors/loading.inteceptor';
 import { LoadingService } from './shared/services/loading.service';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
+registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +26,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     LayoutModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true  },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true  },
     LoadingService,

@@ -1,3 +1,4 @@
+import { CreateClienteRequest } from './requests/create-cliente.request';
 import { PaginationResult } from './../../structure/response.model';
 import { Injectable } from "@angular/core";
 import { AppClient } from "../../app-client";
@@ -7,6 +8,7 @@ import { CreateUserResponse } from "../usuarios-endpoint/responses/create-user.r
 import { DTO } from "../../structure/response.model";
 import { HttpParams } from "@angular/common/http";
 import { ClienteResponse } from './responses/clientes.response';
+import { CreateClienteResponse } from './responses/create-cliente.response';
 
 @Injectable({
     providedIn: 'root'
@@ -28,7 +30,7 @@ export class ClientesApiService {
         });
     }
 
-    public createUser(createUserRequest: CreateUserRequest): Observable<DTO<CreateUserResponse>> {
-        return this.appClient.HttpPost<CreateUserResponse>("usuarios", createUserRequest, {});
+    public createCliente(createClienteRequest: CreateClienteRequest): Observable<DTO<CreateClienteResponse>> {
+        return this.appClient.HttpPost<CreateClienteResponse>("clientes", createClienteRequest, {});
     }
 }
