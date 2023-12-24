@@ -12,6 +12,28 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import { LOCALE_ID } from '@angular/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { IConfig, NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @NgModule({
   declarations: [],
@@ -28,7 +50,11 @@ import {MatSelectModule} from '@angular/material/select'
     MatDividerModule,
     MatIconModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   exports: [
     FormsModule,
@@ -42,10 +68,19 @@ import {MatSelectModule} from '@angular/material/select'
     MatDividerModule,
     MatIconModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
     SnackBarService,
+    provideEnvironmentNgxMask(maskConfig), // modulo global possivelmente
+    provideNgxMask(),
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {

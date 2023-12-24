@@ -1,1 +1,85 @@
-<p>formulario works!</p>
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home" >Dashboard</a> / <a routerLink="/clientes" >Clientes</a>  / Cadastro</span>
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Cadastro Clientes</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>CPF</mat-label>
+                    <input matInput mask="000.000.000-00" [formControl]="formCadastro.controls.cpf" [dropSpecialCharacters]="false"  autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.cpf.touched && formCadastro.controls.cpf.hasError('cpfInvalido')">
+                        {{CADASTRO_CONTS.CPF_INVALIDO}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Nome</mat-label>
+                    <input matInput [formControl]="formCadastro.controls.nome" autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.nome.touched && formCadastro.controls.nome.hasError('required')">
+                        {{CADASTRO_CONTS.NOME_OBRIGATORIO}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formCadastro.controls.nome.touched && formCadastro.controls.nome.hasError('minlength')">
+                        {{CADASTRO_CONTS.NOME_MIN_LENGHT}}
+                    </mat-error>
+                    <mat-error
+                        *ngIf="formCadastro.controls.nome.touched && formCadastro.controls.nome.hasError('invalidName')">
+                        {{CADASTRO_CONTS.NOME_COMPOSTO}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Situações</mat-label>
+                    <mat-select [formControl]="formCadastro.controls.situacao">
+                      <mat-option *ngFor="let situacao of situacoes" [value]="situacao.valor">
+                        {{ situacao.descricao }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Data de Nascimento</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="formCadastro.controls.dataNascimento">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Telefone</mat-label>
+                    <input type="text" [formControl]="formCadastro.controls.telefone" matInput  mask="+00 (00) 00000 0000" [dropSpecialCharacters]="false" autocomplete="off">
+                    <mat-error
+                        *ngIf="formCadastro.controls.telefone.touched && formCadastro.controls.telefone.hasError('telefoneInvalido')">
+                        {{CADASTRO_CONTS.TELEFONE_INVALIDO}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-divider class="mb-4"></mat-divider>
+            </div>
+            <div class="mb-3">
+                <div class="mb-3 botoes">
+                    <button routerLink="/clientes" mat-raised-button color="accent">
+                        Fechar
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
+                    <button mat-raised-button color="primary" >
+                        Salvar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

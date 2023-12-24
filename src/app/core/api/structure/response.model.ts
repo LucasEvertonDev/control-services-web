@@ -10,7 +10,7 @@ export interface error {
     details: object
 }
 
-export interface PaginationReuslt<T> {
+export interface PaginationResult<T> {
     items: T[],
     pageNumber: number,
     pageSize: number,

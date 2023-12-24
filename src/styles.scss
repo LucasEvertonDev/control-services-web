@@ -12,10 +12,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 mat-form-field:not(.mat-mdc-paginator-page-size-select) {
     width: 100% !important;
-    height: 100%;;
 }
 
 .snack-background-red{
+    z-index: 2000 !important;
     div.mdc-snackbar__surface  {
         width: 40vw !important;
         background-color: rgb(178, 25, 25, 1) !important;
@@ -29,6 +29,7 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
     }
 }
 .snack-background-green{
+    z-index: 2000 !important;
     width: 40vw !important;
     div.mdc-snackbar__surface  {
         background: rgb(29, 102, 29) !important;
@@ -64,4 +65,24 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
     border-top: 0.7px solid #ccc;
     border-left: 0.7px solid #ccc;
     border-right: 0.7px solid #ccc;
+}
+
+.table > thead {
+    vertical-align: bottom;
+    background-color: #3f51b5;
+    tr {
+        th {
+            color: white !important;
+        }
+    }
+
+}
+
+
+.layout-navbar-fixed body:not(.modal-open) .layout-content-navbar .layout-navbar, .layout-menu-fixed body:not(.modal-open) .layout-content-navbar .layout-navbar, .layout-menu-fixed-offcanvas body:not(.modal-open) .layout-content-navbar .layout-navbar {
+    z-index: 1;
+}
+
+.form-item {
+    margin-bottom: 30px;
 }
