@@ -1,0 +1,49 @@
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home" >Dashboard</a> / <a routerLink="/servicos" >Serviços</a>  / Cadastro</span>
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Cadastro Servicos</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Nome</mat-label>
+                    <input matInput [formControl]="formCadastro.controls.nome" autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.nome.touched && formCadastro.controls.nome.hasError('required')">
+                        Nome é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-7 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput [formControl]="formCadastro.controls.descricao" autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.descricao.touched && formCadastro.controls.descricao.hasError('required')">
+                        Descrição é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-divider class="mb-4"></mat-divider>
+            </div>
+            <div class="mb-3">
+                <div class="mb-3 botoes">
+                    <button routerLink="/servicos" mat-raised-button color="accent">
+                        Fechar
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
+                    <button mat-raised-button color="primary" [disabled]="!formCadastro.valid && formCadastro.disable">
+                        Salvar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -14,6 +14,11 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'servicos',
+    loadChildren: () => import('./features/servicos/servicos.module').then(m => m.ServicosModule),
+    canActivate: [authGuard]
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./features/usuarios/usuarios.module').then(m => m.UsuariosModule),
   },
