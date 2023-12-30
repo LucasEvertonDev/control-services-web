@@ -17,7 +17,7 @@ export class FormularioComponent {
   public formCadastro!: FormGroup<FormCadastroClientes>;
   public novaEntrada: boolean;
   public situacoes: ComboItem[] = Situacoes;
-  public createClienteRequest!: CreateClienteRequest;
+
 
   public constructor(private clienteApiService: ClientesApiService,
     private formBuilder: FormBuilder,
@@ -26,24 +26,50 @@ export class FormularioComponent {
     private snackBarService: SnackBarService,
     private router: Router) {
       this.novaEntrada = !(this.actvatedRouter.snapshot.url[0].path === 'edit');
-      
-      this.formCadastro = this.formBuilder.group<FormCadastroClientes>(new FormCadastroClientes());
 
       if (!this.novaEntrada) {
-        this.formCadastro.controls.id.setValue(this.actvatedRouter.snapshot.url[1].path);
+        this.clienteApiService.getClientePorId(this.actvatedRouter.snapshot.url[1].path)
+          .subscribe((response) => {
+            if(response.success) {
+              this.formCadastro = this.formBuilder.group<FormCadastroClientes>(new FormCadastroClientes(response.content));
+            }
+          });
+      }
+      else {
+        this.formCadastro = this.formBuilder.group<FormCadastroClientes>(new FormCadastroClientes());
       }
   }
 
   public onSubmit(): void {
-    this.createClienteRequest = Object.assign('', this.createClienteRequest, this.formCadastro.value)
+    this.formCadastro.controls.id.value ? this.onUpdate() : this.onCreate();
+  }
+
+  public onCreate() : void {
+    let createClienteRequest!: CreateClienteRequest;
+
+    createClienteRequest = Object.assign('', createClienteRequest, this.formCadastro.value)
     this.clienteApiService.createCliente({
-      ...this.createClienteRequest
+      ...createClienteRequest
     })
     .subscribe((response) =>{
       if(response.success) {
         this.snackBarService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_CADASTRADO_SUCESSO);
+        this.formCadastro.disable();
+      }
+    });
+  }
 
-        this.router.navigateByUrl('/clientes')
+  public onUpdate(): void {
+    let createClienteRequest!: CreateClienteRequest;
+    
+    createClienteRequest = Object.assign('', createClienteRequest, this.formCadastro.value)
+    this.clienteApiService.updateCliente(this.formCadastro.controls.id.value ?? "",{
+      ...createClienteRequest
+    })
+    .subscribe((response) =>{
+      if(response.success) {
+        this.snackBarService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_ATUALIZADO_COM_SUCESSO);
+        this.formCadastro.disable();
       }
     });
   }

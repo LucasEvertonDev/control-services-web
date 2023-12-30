@@ -10,4 +10,5 @@ export class CadastroConstantsService {
     public TELEFONE_INVALIDO: string = 'Telefone inválido';
 
     public CLIENTE_CADASTRADO_SUCESSO: string = 'Cliente cadastrado com sucesso!';
+    public CLIENTE_ATUALIZADO_COM_SUCESSO: string = 'Cliente atualizado com sucesso!';
 }

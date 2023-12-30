@@ -1,29 +1,30 @@
 import { AbstractControl, FormControl, ValidatorFn, Validators } from "@angular/forms";
 import { Situacao } from "./situacoes.model";
+import { ClienteResponse } from "src/app/core/api/services/clientes-endpoint/responses/clientes.response";
 
 export class FormCadastroClientes {
-    public constructor() {
-      this.id = new FormControl<string>(
-          { value: '', disabled: false },
+    public constructor(clienteModel?: ClienteResponse) {
+      this.id = new FormControl<string | null>(
+          { value: clienteModel?.id ?? null, disabled: false },
           { nonNullable: true, validators: [] },)
       this.cpf = new FormControl<string>(
-          { value: '', disabled: false },
+          { value: clienteModel?.cpf ??'', disabled: false },
           { nonNullable: true, validators: [validaCampoCpf()] },);
       this.nome = new FormControl<string>(
-          { value: '', disabled: false }, 
+          { value: clienteModel?.nome ?? '', disabled: false }, 
           { nonNullable: true, validators: [Validators.required, nomeCompostoValidator()] },);
       this.situacao = new FormControl<number>(
-          { value: Situacao.Ativo, disabled: false }, 
+          { value: clienteModel?.situacao ?? Situacao.Ativo, disabled: false }, 
           { nonNullable: true, validators: [] },);
       this.dataNascimento = new FormControl<Date | null>(
-          { value: null, disabled: false }, 
+          { value: clienteModel?.dataNascimento ?? null, disabled: false }, 
           { nonNullable: true, validators: [] },);
       this.telefone = new FormControl<string>(
-          { value: '', disabled: false }, 
+          { value: clienteModel?.telefone ?? '', disabled: false }, 
           { nonNullable: true, validators: [validaCompoTelefone()] },);
     }
 
-    public id: FormControl<string>;
+    public id: FormControl<string | null>;
     public cpf: FormControl<string>;
     public nome: FormControl<string>;
     public situacao: FormControl<number>;

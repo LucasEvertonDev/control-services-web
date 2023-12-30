@@ -86,3 +86,7 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
 .form-item {
     margin-bottom: 30px;
 }
+
+.container-xxl {
+    max-width: none !important;
+}

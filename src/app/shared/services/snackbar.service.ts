@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatDialog } from "@angular/material/dialog";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SnackBarService {
-    constructor(protected snackBar: MatSnackBar) { }
+    constructor(protected snackBar: MatSnackBar,
+        protected matDialog: MatDialog) { }
 
     public ShowError(message: string, durationInSeconds?: number) {
         setTimeout(() => {

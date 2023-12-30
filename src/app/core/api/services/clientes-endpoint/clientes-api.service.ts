@@ -9,6 +9,8 @@ import { DTO } from "../../structure/response.model";
 import { HttpParams } from "@angular/common/http";
 import { ClienteResponse } from './responses/clientes.response';
 import { CreateClienteResponse } from './responses/create-cliente.response';
+import { UpdateClienteRequest } from './requests/update-cliente.request';
+import { UpdateClienteResponse } from './responses/update-cliente.response';
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +32,15 @@ export class ClientesApiService {
         });
     }
 
+    public getClientePorId(id: string): Observable<DTO<ClienteResponse>> {
+        return this.appClient.HttpGet<ClienteResponse>(`clientes/${id}`);
+    }
+
     public createCliente(createClienteRequest: CreateClienteRequest): Observable<DTO<CreateClienteResponse>> {
         return this.appClient.HttpPost<CreateClienteResponse>("clientes", createClienteRequest, {});
+    }
+
+    public updateCliente(id: string, updateClienteRequest: UpdateClienteRequest): Observable<DTO<UpdateClienteResponse>> {
+        return this.appClient.HttpPut<UpdateClienteResponse>(`clientes/${id}`, updateClienteRequest, {});
     }
 }

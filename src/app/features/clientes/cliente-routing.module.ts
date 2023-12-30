@@ -10,6 +10,10 @@ const routes: Routes = [{
 {
   path: 'create',
   component: FormularioComponent
+}, 
+{
+  path: 'edit/:id',
+  component: FormularioComponent
 }];
 
 @NgModule({
