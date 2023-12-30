@@ -12,6 +12,8 @@ import { LoadingService } from './shared/services/loading.service';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -23,14 +25,17 @@ registerLocaleData(localePt);
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    LayoutModule
+    LayoutModule,
+    MatDialogModule,
+    MatDividerModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true  },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true  },
     LoadingService,
-    MatSnackBar
+    MatSnackBar,
+    MatDialog
   ],
   bootstrap: [AppComponent]
 })

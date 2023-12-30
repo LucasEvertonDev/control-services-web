@@ -4,7 +4,7 @@ import { Observable, catchError, of } from "rxjs";
 import { environment } from "src/environments/environment";
 import { optionsHttp } from "./structure/options.model";
 import { DTO } from "./structure/response.model";
-import { SnackBarService } from "src/app/shared/services/snackbar.service";
+import { AvisoService } from "src/app/shared/services/snackbar.service";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,7 @@ export class AppClient {
     protected urlApiBase!: string;
 
     constructor(private readonly _httpClient: HttpClient,
-        private snackbarService: SnackBarService) {
+        private AvisoService: AvisoService) {
         this.SetBaseUrl(environment.ApiUrl);
     }
 
@@ -61,12 +61,12 @@ export class AppClient {
         if (error.error && error.error.error) {
             var response = error.error as DTO<T>;
 
-            this.snackbarService.ShowErrors(response.error.messages);
+            this.AvisoService.ShowErrors(response.error.messages);
 
             return response;
         }
 
-        this.snackbarService.ShowError("Não foi possível se comunicar com a api!");
+        this.AvisoService.ShowError("Não foi possível se comunicar com a api!");
 
         return { 
             error: { details: error.error, messages: ["Algo inesperado aconteceu por favor contate o administrador do sistema"] },

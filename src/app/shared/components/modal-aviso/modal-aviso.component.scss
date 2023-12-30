@@ -1,0 +1,47 @@
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 500px !important;
+    max-width: 600px !important;
+}
+
+.success {
+    color: #4caf50;
+}
+
+.error {
+    color: #f44336;
+}
+
+.icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.content {
+    h3 {
+        margin-bottom: 0 !important;
+    }
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+button {
+    margin-top: 16px;
+}
+
+.header {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer {
+    text-align: right;
+}

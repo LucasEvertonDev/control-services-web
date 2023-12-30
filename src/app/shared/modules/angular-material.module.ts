@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SnackBarService } from '../services/snackbar.service';
+import { AvisoService } from '../services/snackbar.service';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
@@ -83,7 +83,7 @@ export const MY_DATE_FORMATS = {
     ModalAvisoComponent
   ],
   providers: [
-    SnackBarService,
+    AvisoService,
     provideEnvironmentNgxMask(maskConfig), // modulo global possivelmente
     provideNgxMask(),
     { provide: MatPaginatorIntl, useValue: CustomPaginator() },

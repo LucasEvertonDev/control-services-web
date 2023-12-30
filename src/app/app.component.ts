@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TokenModel } from './core/api/structure/token.model';
 import { AuthApiService } from './core/api/services/auth-endpoint/auth-api.service';
+import { ModalAvisoComponent } from './shared/components/modal-aviso/modal-aviso.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,8 @@ export class AppComponent implements OnInit {
     private authApiService: AuthApiService,
     private idleService: BnNgIdleService,
     private loadingService: LoadingService,
-    private router: Router) { }
+    private router: Router,
+    private matDialog: MatDialog) { }
 
   public ngOnInit(): void {
     this.authorizationService.usuarioEstaLogado()

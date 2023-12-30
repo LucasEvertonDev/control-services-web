@@ -1,58 +1,72 @@
+import { ModalAvisoModel } from './../components/modal-aviso/modal-aviso.component';
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog } from "@angular/material/dialog";
+import { ModalAvisoComponent } from "../components/modal-aviso/modal-aviso.component";
 
 @Injectable({
     providedIn: 'root'
 })
-export class SnackBarService {
-    constructor(protected snackBar: MatSnackBar,
+export class AvisoService {
+    constructor(
         protected matDialog: MatDialog) { }
 
     public ShowError(message: string, durationInSeconds?: number) {
         setTimeout(() => {
-            this.snackBar.open(message, '', {
-                horizontalPosition: 'center',
-                verticalPosition: 'top',
-                duration: (durationInSeconds ?? 10) * 1000,
-                panelClass: ['snack-background-red']
-              });
-        }, 1000);
+            const dialogRef = this.matDialog.open(ModalAvisoComponent, {
+                data: {
+                    tipo: 'error',
+                    mensagem: message
+                },
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+                let x = result;
+            });
+        });
     }
 
     public ShowErrors(messages: string[], durationInSeconds?: number) {
         if (messages) {
-            messages.forEach(error => {
-                setTimeout(() => {
-                    this.snackBar.open(error, '', {
-                        horizontalPosition: 'center',
-                        verticalPosition: 'top',
-                        duration: (durationInSeconds ?? 10) * 1000,
-                        panelClass: ['snack-background-red'],
-                    });
-                }, 1000);
+            const dialogRef = this.matDialog.open(ModalAvisoComponent, {
+                data: {
+                    tipo: 'error',
+                    mensagem: messages.join('\n')
+                },
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+                let x = result;
             });
         } else {
             setTimeout(() => {
-                this.snackBar.open("Não foi possível se comunicar ao servidor!", "", {
-                    horizontalPosition: 'right',
-                    verticalPosition: 'top',
-                    duration: (durationInSeconds ?? 10) * 1000,
-                    panelClass: ['snack-background-red']
+                const dialogRef = this.matDialog.open(ModalAvisoComponent, {
+                    data: {
+                        tipo: 'error',
+                        mensagem: 'Algo inesperado aconteceu. Por favor contate o administrador do sistema.'
+                    },
                 });
-            }, 1000);
+    
+                dialogRef.afterClosed().subscribe(result => {
+                    let x = result;
+                });
+            });
         }
     }
 
     public ShowSucess(message: string, durationInSeconds?: number) {
         setTimeout(() => {
-            this.snackBar.open(message, "", {
-                horizontalPosition: 'center',
-                verticalPosition: 'top',
-                duration: (durationInSeconds ?? 10) * 1000,
-                panelClass: ['snack-background-green']
+            const dialogRef = this.matDialog.open(ModalAvisoComponent, {
+                data: {
+                    tipo: 'success',
+                    mensagem: message
+                },
             });
-        }, 1000);
+
+            dialogRef.afterClosed().subscribe(result => {
+                let x = result;
+            });
+        });
     }
 }
 

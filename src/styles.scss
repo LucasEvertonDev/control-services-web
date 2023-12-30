@@ -90,3 +90,7 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
 .container-xxl {
     max-width: none !important;
 }
+
+.cdk-overlay-container { 
+    z-index: 1100 !important;
+}

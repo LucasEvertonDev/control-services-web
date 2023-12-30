@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { AuthApiService } from 'src/app/core/api/services/auth-endpoint/auth-api.service';
-import { SnackBarService } from 'src/app/shared/services/snackbar.service';
+import { AvisoService } from 'src/app/shared/services/snackbar.service';
 import { LoginContantsService } from '../../services/login-contants.service';
 import { FormLogin } from '../../models/form-login.model';
 
@@ -20,7 +20,7 @@ export class LoginComponent {
   public constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private snackBarService: SnackBarService,
+    private AvisoService: AvisoService,
     private authApiService: AuthApiService,
     public LOGIN_CONSTS: LoginContantsService) {
       this.formLogin = this.formBuilder.group<FormLogin>(new FormLogin());
@@ -28,7 +28,7 @@ export class LoginComponent {
 
   public onSubmit() {
     if (!this.formLogin.valid) {
-      this.snackBarService.ShowError("Por favor revise seu formulário!")
+      this.AvisoService.ShowError("Por favor revise seu formulário!")
       return;
     }
 

@@ -1,4 +1,4 @@
-import { SnackBarService } from 'src/app/shared/services/snackbar.service';
+import { AvisoService } from 'src/app/shared/services/snackbar.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormCadastroClientes } from '../../models/form-cadastro.model';
@@ -23,7 +23,7 @@ export class FormularioComponent {
     private formBuilder: FormBuilder,
     private actvatedRouter: ActivatedRoute,
     public CADASTRO_CONTS: CadastroConstantsService,
-    private snackBarService: SnackBarService,
+    private AvisoService: AvisoService,
     private router: Router) {
       this.novaEntrada = !(this.actvatedRouter.snapshot.url[0].path === 'edit');
 
@@ -53,7 +53,7 @@ export class FormularioComponent {
     })
     .subscribe((response) =>{
       if(response.success) {
-        this.snackBarService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_CADASTRADO_SUCESSO);
+        this.AvisoService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_CADASTRADO_SUCESSO);
         this.formCadastro.disable();
       }
     });
@@ -68,7 +68,7 @@ export class FormularioComponent {
     })
     .subscribe((response) =>{
       if(response.success) {
-        this.snackBarService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_ATUALIZADO_COM_SUCESSO);
+        this.AvisoService.ShowSucess(this.CADASTRO_CONTS.CLIENTE_ATUALIZADO_COM_SUCESSO);
         this.formCadastro.disable();
       }
     });

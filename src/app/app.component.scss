@@ -41,7 +41,7 @@
     bottom: 0;
     background-color: rgb(91 104 122 / 61%); /* Black background with opacity */
     opacity: 0.5;
-    z-index: 2000; /* Specify a stack order in case you're using a different order for other elements */
+    z-index: 1099; /* Specify a stack order in case you're using a different order for other elements */
     cursor: progress; /* Add a pointer on hover */
 }
 

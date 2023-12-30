@@ -1,6 +1,6 @@
 import { RegistarConstantsService } from './../../services/registrar-constants.service';
 import { CreateUserRequest } from './../../../../core/api/services/usuarios-endpoint/requests/create-user.request';
-import { SnackBarService } from './../../../../shared/services/snackbar.service';
+import { AvisoService } from './../../../../shared/services/snackbar.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { take } from 'rxjs';
@@ -19,7 +19,7 @@ export class RegistrarComponent {
 
   public constructor(private formBuilder: FormBuilder,
     private usuarioApiService: UsuarioApiService,
-    private snackBarService: SnackBarService,
+    private AvisoService: AvisoService,
     private router: Router,
     public REGISTER_CONSTS: RegistarConstantsService) {
       this.registerForm = this.formBuilder.group<FormRegistrar>(new FormRegistrar(), {
@@ -36,7 +36,7 @@ export class RegistrarComponent {
       .subscribe((response) => {
         if (response.success) {
           this.router.navigateByUrl('/auth');
-          this.snackBarService.ShowSucess(this.REGISTER_CONSTS.USUARIO_CADASTRADO_COM_SUCESSO)
+          this.AvisoService.ShowSucess(this.REGISTER_CONSTS.USUARIO_CADASTRADO_COM_SUCESSO)
         }
       });
   }
