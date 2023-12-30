@@ -23,21 +23,23 @@ export class AvisoService {
             dialogRef.afterClosed().subscribe(result => {
                 let x = result;
             });
-        });
+        }, 1000);
     }
 
     public ShowErrors(messages: string[], durationInSeconds?: number) {
         if (messages) {
-            const dialogRef = this.matDialog.open(ModalAvisoComponent, {
-                data: {
-                    tipo: 'error',
-                    mensagem: messages.join('\n')
-                },
-            });
+            setTimeout(() => {
+                const dialogRef = this.matDialog.open(ModalAvisoComponent, {
+                    data: {
+                        tipo: 'error',
+                        mensagem: messages.join('\n')
+                    },
+                });
 
-            dialogRef.afterClosed().subscribe(result => {
-                let x = result;
-            });
+                dialogRef.afterClosed().subscribe(result => {
+                    let x = result;
+                });
+            }, 1000);
         } else {
             setTimeout(() => {
                 const dialogRef = this.matDialog.open(ModalAvisoComponent, {
@@ -50,7 +52,7 @@ export class AvisoService {
                 dialogRef.afterClosed().subscribe(result => {
                     let x = result;
                 });
-            });
+            }, 1000);
         }
     }
 
@@ -66,7 +68,7 @@ export class AvisoService {
             dialogRef.afterClosed().subscribe(result => {
                 let x = result;
             });
-        });
+        }, 1000);
     }
 }
 

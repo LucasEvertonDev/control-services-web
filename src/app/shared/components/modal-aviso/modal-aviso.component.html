@@ -1,12 +1,25 @@
 <div class="modal-container" [ngClass]="data.tipo">
     <div class="header">
         <h2 [ngClass]="data.tipo">{{ data.tipo === 'success' ? 'Atenção!' : 'Atenção!' }}</h2>
-        <div class="icon">
-            <mat-icon>{{ data.tipo === 'success' ? 'check_circle' : 'error' }}</mat-icon>
+        <div class="icon" >
+            <mat-icon [mat-dialog-close]="">close</mat-icon>
         </div>
     </div>
     <mat-divider></mat-divider>
     <div class="content">
+        <div *ngIf="data.tipo === 'success'">
+            <div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex;">
+                <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                  <span class="swal2-success-line-tip"></span>
+                  <span class="swal2-success-line-long"></span>
+                  <div class="swal2-success-ring"></div> 
+                  <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                  <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                 </div>
+        </div>
+        <div *ngIf="data.tipo !== 'success'">
+            <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;"><span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+        </div>
         <h3 >{{ data.mensagem }}</h3>
     </div>
     <mat-divider></mat-divider>
