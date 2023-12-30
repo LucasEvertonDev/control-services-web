@@ -52,12 +52,11 @@ export function nomeCompostoValidator(): ValidatorFn {
 export function validaCampoCpf(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const cpf = control.value;
-      
       if (!cpf && cpf === '') {
         null;
       }
 
-      if (cpf.length < 14) {
+      if (cpf?.trim().length > 0 && cpf.length < 14) {
         return { 'cpfInvalido': { value: cpf } };
       }
 
@@ -68,12 +67,11 @@ export function validaCampoCpf(): ValidatorFn {
 export function validaCompoTelefone(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const telefone = control.value;
-      
       if (!telefone && telefone === '') {
         null;
       }
 
-      if (telefone.length < 19) {
+      if (telefone?.trim().length > 0 && telefone.length < 19) {
         return { 'telefoneInvalido': { value: telefone } };
       }
       
