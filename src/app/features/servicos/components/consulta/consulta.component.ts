@@ -6,6 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormConsultaServico } from '../../models/form-consulta.model';
 import { ServicoApiService } from 'src/app/core/api/services/servicos-endpoint/servicos-api.service';
 import { take } from 'rxjs';
+import { ComboItem, Situacoes } from '../../models/situacoes.model';
 
 @Component({
   selector: 'app-consulta',
@@ -15,6 +16,7 @@ import { take } from 'rxjs';
 export class ConsultaComponent {
   public formConsulta: FormGroup<FormConsultaServico>;
   public paginationResult!: PaginationResult<ServicoResponse>;
+  public situacoes: ComboItem[] = Situacoes;
   public pageEvent!: PageEvent;
   public items!: ServicoResponse[];
 

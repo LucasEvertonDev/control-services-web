@@ -9,25 +9,35 @@
     </div>
     <div class="card-body">
         <form class="form row" [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
-            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-4 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Nome</mat-label>
                     <input matInput [formControl]="formCadastro.controls.nome" autocomplete="off" />
                     <mat-error
                         *ngIf="formCadastro.controls.nome.touched && formCadastro.controls.nome.hasError('required')">
-                        Nome é obrigatório
+                        {{cadastroConstants.NOME_OBRIGATORIO}}
                     </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-md-7 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Descrição</mat-label>
                     <input matInput [formControl]="formCadastro.controls.descricao" autocomplete="off" />
                     <mat-error
                         *ngIf="formCadastro.controls.descricao.touched && formCadastro.controls.descricao.hasError('required')">
-                        Descrição é obrigatório
+                        {{this.cadastroConstants.DESCRICAO_OBRIGATORIO}}
                     </mat-error>
                 </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Situações</mat-label>
+                    <mat-select formControlName="situacao">
+                      <mat-option *ngFor="let situacao of situacoes" [value]="situacao.valor">
+                        {{ situacao.descricao }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div class="col-12">
                 <mat-divider class="mb-4"></mat-divider>

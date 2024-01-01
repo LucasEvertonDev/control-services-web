@@ -6,6 +6,8 @@ import { ServicoApiService } from 'src/app/core/api/services/servicos-endpoint/s
 import { CreateServicoRequest } from 'src/app/core/api/services/servicos-endpoint/requests/create-servico.request';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateServicoRequest } from 'src/app/core/api/services/servicos-endpoint/requests/update-servico.request';
+import { CadastroConstantsService } from '../../services/cadastro-constants.service';
+import { ComboItem, Situacoes } from '../../models/situacoes.model';
 
 @Component({
   selector: 'app-formulario',
@@ -15,12 +17,15 @@ import { UpdateServicoRequest } from 'src/app/core/api/services/servicos-endpoin
 export class FormularioComponent {
   public formCadastro!: FormGroup<FormCadastroServico>;
   public novaEntrada: boolean;
+  public situacoes: ComboItem[] = Situacoes;
+
 
   public constructor(private servicoapiService: ServicoApiService,
     private formBuilder: FormBuilder,
     private actvatedRouter: ActivatedRoute,
     private avisoService: AvisoService,
-    private router: Router) {
+    private router: Router,
+    public cadastroConstants: CadastroConstantsService) {
       this.novaEntrada = !(this.actvatedRouter.snapshot.url[0].path === 'edit');
 
       if (!this.novaEntrada) {
@@ -49,7 +54,7 @@ export class FormularioComponent {
     })
     .subscribe((response) =>{
       if(response.success) {
-        this.avisoService.ShowSucess("Serviço  cadastrado com sucesso!");
+        this.avisoService.ShowSucess(this.cadastroConstants.SERVICO_CADASTRADO_SUCESSO);
         this.formCadastro.disable();
       }
     });
@@ -64,7 +69,7 @@ export class FormularioComponent {
     })
     .subscribe((response) =>{
       if(response.success) {
-        this.avisoService.ShowSucess("Serviço atualizado com sucesso!");
+        this.avisoService.ShowSucess(this.cadastroConstants.SERVICO_ATUALIZADO_SUCESSO);
         this.formCadastro.disable();
       }
     });

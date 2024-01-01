@@ -9,17 +9,27 @@
     </div>
     <div class="card-body">
         <form class="form row" [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
-            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-4 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Nome</mat-label>
                     <input matInput [formControl]="formConsulta.controls.nome" autocomplete="off" />
                 </mat-form-field>
             </div>
-            <div class="col-md-7 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Descricao</mat-label>
                     <input matInput [formControl]="formConsulta.controls.descricao" autocomplete="off" />
                 </mat-form-field>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Situações</mat-label>
+                    <mat-select formControlName="situacao">
+                      <mat-option *ngFor="let situacao of situacoes" [value]="situacao.valor">
+                        {{ situacao.descricao }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <mat-divider class="mb-4"></mat-divider>
             <div class="mb-3">
@@ -39,27 +49,27 @@
             <div class="mb-3 table-div table-responsive mat-elevation-z1">
                 <table class="table table-round-corner">
                     <thead class="table">
-                        <tr>
-                            <th colspan="4">
+                        <tr class="">
+                            <th colspan="col-4">
                                 Nome
                             </th>
-                            <th colspan="7">
+                            <th colspan="col-7">
                                 Descricao
                             </th>
-                            <th colspan="1">
+                            <th colspan="col-1">
                                 Ações
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of items">
-                            <td colspan="4">
+                            <td colspan="">
                                 {{item.nome}}
                             </td>
-                            <td colspan="7">
+                            <td colspan="">
                                 {{item.descricao}}
                             </td>
-                            <td colspan="1">
+                            <td colspan="">
                                 <a class="btn btn-default" routerLink='/servicos/edit/{{item.id}}' >
                                     <span class="tf-icons bx bx-edit"></span>
                                 </a>
