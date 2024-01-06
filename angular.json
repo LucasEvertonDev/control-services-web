@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dani-nails:build:production"
+              "buildTarget": "dani-nails:build:production"
             },
             "development": {
-              "browserTarget": "dani-nails:build:development"
+              "buildTarget": "dani-nails:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dani-nails:build"
+            "buildTarget": "dani-nails:build"
           }
         },
         "test": {
