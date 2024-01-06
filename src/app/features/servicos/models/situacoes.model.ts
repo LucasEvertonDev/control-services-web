@@ -3,12 +3,12 @@ export enum Situacao {
     Inativo = 2,
 }
 
-export interface ComboItem {
+export interface ComboSituacao {
     descricao: string;
     valor: Situacao;
 }
 
-export const Situacoes: ComboItem[] = [
+export const Situacoes: ComboSituacao[] = [
     { descricao: 'Ativo', valor: Situacao.Ativo },
     { descricao: 'Inativo', valor: Situacao.Inativo },
 ];

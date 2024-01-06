@@ -20,7 +20,8 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { IConfig, NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ModalAvisoComponent } from '../components/modal-aviso/modal-aviso.component';
-
+import { MatSliderModule } from '@angular/material/slider';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -60,7 +61,10 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    MatDialogModule
+    MatDialogModule,
+    MatNativeDateModule,
+    MatSliderModule,
+    MatAutocompleteModule
   ],
   exports: [
     FormsModule,
@@ -80,7 +84,10 @@ export const MY_DATE_FORMATS = {
     NgxMaskDirective,
     NgxMaskPipe,
     MatDialogModule,
-    ModalAvisoComponent
+    ModalAvisoComponent,
+    MatNativeDateModule,
+    MatSliderModule,
+    MatAutocompleteModule
   ],
   providers: [
     AvisoService,

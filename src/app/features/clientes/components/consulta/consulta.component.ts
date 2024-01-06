@@ -3,7 +3,7 @@ import { ClientesApiService } from './../../../../core/api/services/clientes-end
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormConsultarClientes } from '../../models/form-consultar.model';
-import { ComboItem, Situacoes } from '../../models/situacoes.model';
+import { ComboSituacao, Situacoes } from '../../models/situacoes.model';
 import { take } from 'rxjs';
 import { ClienteResponse } from 'src/app/core/api/services/clientes-endpoint/responses/clientes.response';
 import { PageEvent } from '@angular/material/paginator';
@@ -15,7 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ConsultaComponent {
   public formConsulta: FormGroup<FormConsultarClientes>;
-  public situacoes: ComboItem[] = Situacoes;
+  public situacoes: ComboSituacao[] = Situacoes;
   public paginationResult!: PaginationResult<ClienteResponse>;
   public pageEvent!: PageEvent;
   public items!: ClienteResponse[];

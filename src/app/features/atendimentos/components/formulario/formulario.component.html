@@ -1,0 +1,110 @@
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home">Dashboard</a> / <a routerLink="/atendimentos">Atendimentos</a>
+        / Cadastro</span>
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Cadastro de Atendimentos</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+            <div class="col-md-4 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Data Agendamento</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="formCadastro.controls.data">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Horário</mat-label>
+                    <input matInput mask="00:00" [formControl]="formCadastro.controls.horario"
+                        [dropSpecialCharacters]="false" autocomplete="off" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Cliente</mat-label>
+                    <input matInput [formControl]="formCadastro.controls.cliente" [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="exibiDescricaoItem">
+                        @for (option of clientesFiltrados | async; track option) {
+                        <mat-option [value]="option">{{option.descricao}}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Situações</mat-label>
+                    <mat-select [formControl]="formCadastro.controls.situacao">
+                        <mat-option *ngFor="let situacao of situacoes" [value]="situacao.valor">
+                            {{ situacao.descricao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Valor Atendimento</mat-label>
+                    <input type="text" matInput [formControl]="formCadastro.controls.valorAtendimento" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+                <a style="width: 100%;height: 45.6px;" (click)="addItem()" class mat-raised-button
+                    color="primary">Incluir Serviço</a>
+            </div>
+            <div class="col-12">
+                <h3 class="FormTitle col-12">Listagem de Serviços</h3>
+                <mat-divider class="mb-4"></mat-divider>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 " formArrayName="servicos"
+                *ngFor="let item of formCadastro.controls.servicos.controls;let i=index">
+                <div class="row" [formGroupName]="i">
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-item">
+                        <mat-form-field appearance="outline" class="mat-form-custom">
+                            <mat-label>Servico</mat-label>
+                            <input matInput [formControl]="item.controls.servico" [matAutocomplete]="auto2">
+                            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="exibiDescricaoItem">
+                                @for (option of servicosFiltrados | async; track option) {
+                                    <mat-option [value]="option">{{option.descricao}}</mat-option>
+                                }
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-item">
+                        <mat-form-field appearance="outline" class="mat-form-custom">
+                            <mat-label>Valor</mat-label>
+                            <input type="text" matInput [formControl]="item.controls.valorServico" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+                        <a style="width: 100%;height: 45.6px;" (click)="removeItem(i)" class mat-raised-button
+                            color="primary">
+                            <mat-icon>remove</mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <mat-divider class="mb-4"></mat-divider>
+            </div>
+
+            <div class="mb-3">
+                <div class="mb-3 botoes">
+                    <button routerLink="/clientes" mat-raised-button color="accent">
+                        Fechar
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
+                    <button mat-raised-button color="primary" [disabled]="!formCadastro.valid && formCadastro.disable">
+                        Salvar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

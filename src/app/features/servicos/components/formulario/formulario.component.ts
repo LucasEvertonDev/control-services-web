@@ -7,7 +7,7 @@ import { CreateServicoRequest } from 'src/app/core/api/services/servicos-endpoin
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateServicoRequest } from 'src/app/core/api/services/servicos-endpoint/requests/update-servico.request';
 import { CadastroConstantsService } from '../../services/cadastro-constants.service';
-import { ComboItem, Situacoes } from '../../models/situacoes.model';
+import { ComboSituacao, Situacoes } from '../../models/situacoes.model';
 
 @Component({
   selector: 'app-formulario',
@@ -17,7 +17,7 @@ import { ComboItem, Situacoes } from '../../models/situacoes.model';
 export class FormularioComponent {
   public formCadastro!: FormGroup<FormCadastroServico>;
   public novaEntrada: boolean;
-  public situacoes: ComboItem[] = Situacoes;
+  public situacoes: ComboSituacao[] = Situacoes;
 
 
   public constructor(private servicoapiService: ServicoApiService,

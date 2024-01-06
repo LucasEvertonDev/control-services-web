@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormCadastroClientes } from '../../models/form-cadastro.model';
 import { ClientesApiService } from 'src/app/core/api/services/clientes-endpoint/clientes-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ComboItem, Situacoes } from '../../models/situacoes.model';
+import { ComboSituacao, Situacoes } from '../../models/situacoes.model';
 import { CadastroConstantsService } from '../../services/cadastro-constants.service';
 import { CreateClienteRequest } from 'src/app/core/api/services/clientes-endpoint/requests/create-cliente.request';
 
@@ -16,7 +16,7 @@ import { CreateClienteRequest } from 'src/app/core/api/services/clientes-endpoin
 export class FormularioComponent {
   public formCadastro!: FormGroup<FormCadastroClientes>;
   public novaEntrada: boolean;
-  public situacoes: ComboItem[] = Situacoes;
+  public situacoes: ComboSituacao[] = Situacoes;
 
 
   public constructor(private clienteApiService: ClientesApiService,
