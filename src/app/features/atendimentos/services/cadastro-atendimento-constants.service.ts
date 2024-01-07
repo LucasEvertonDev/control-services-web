@@ -13,6 +13,6 @@ export class CadastroAtendimentoConstantsService {
     public SITUACAO_CONCLUIDO: Situacao = Situacao.Concluido;
 
 
-    public SERVICO_CADASTRADO_SUCESSO: string = 'Serviço cadastrado com sucesso!';
-    public SERVICO_ATUALIZADO_SUCESSO: string = 'Serviço atualizado com sucesso!';
+    public ATENDIMENTO_CADASTRADO_SUCESSO: string = 'Atendimento cadastrado com sucesso.';
+    public ATENDIMENTO_ATUALIZADO_SUCESSO: string = 'Atendimento atualizado com sucesso!';
 }

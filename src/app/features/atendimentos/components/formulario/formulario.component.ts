@@ -8,6 +8,7 @@ import { ClientesApiService } from 'src/app/core/api/services/clientes-endpoint/
 import { ServicoApiService } from 'src/app/core/api/services/servicos-endpoint/servicos-api.service';
 import { ComboItem, ComboItemGroup } from 'src/app/shared/models/combo-item.model';
 import { CadastroAtendimentoConstantsService } from '../../services/cadastro-atendimento-constants.service';
+import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 
 @Component({
   selector: 'app-formulario',
@@ -25,7 +26,8 @@ export class FormularioComponent extends BaseComponent {
     protected override inject: Injector,
     private clienteApiService: ClientesApiService,
     private servicoApiService: ServicoApiService,
-    public CONSTS: CadastroAtendimentoConstantsService
+    public CONSTS: CadastroAtendimentoConstantsService,
+    private atendimentoApiService: AtendimentoApiService
   ) {
     super(inject);
 
@@ -40,7 +42,14 @@ export class FormularioComponent extends BaseComponent {
   }
 
   public onSubmit() {
-    alert(JSON.stringify(this.formCadastro.getRawValue()));
+    this.atendimentoApiService.createAtendimento(FormCadastroAtendimentos.GetAtemdimentoRequest(this.formCadastro))
+      .pipe(take(1))
+      .subscribe((response) => {
+        if(response.success) {
+          this.avisoService.ShowSucess(this.CONSTS.ATENDIMENTO_CADASTRADO_SUCESSO);
+          this.formCadastro.disable();
+        }
+      });
   }
 
   public recuperaClientes() {

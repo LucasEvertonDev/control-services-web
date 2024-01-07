@@ -1,4 +1,6 @@
+import { AtendimentoRequest, MapAtendimentosServicos } from './../../../core/api/services/atendimentos-endpoint/requests/atendimento.request';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { DateHelper } from 'src/app/core/helpers/date-helper';
 import { ComboItem } from "src/app/shared/models/combo-item.model";
 
 export class FormCadastroAtendimentos {
@@ -47,6 +49,29 @@ export class FormCadastroAtendimentos {
 
   public static AddItem(): FormGroup<Servicos> {
     return new FormGroup<Servicos>(new Servicos());
+  }
+
+  public static GetAtemdimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): AtendimentoRequest {
+    let servicos: MapAtendimentosServicos[] = [];
+    let formData = formGroup.getRawValue();
+
+    formData.servicos.forEach(item => {
+      servicos.push({
+        servicoId: item.servico?.valor ?? '',
+        valorCobrado: item.valorServico ?? 0
+      });
+    });
+
+    return {
+      clienteAtrasado: formData.clienteAtrasou ?? false,
+      clienteId: formData.cliente?.valor ?? '',
+      data: DateHelper.formatDate(formData.data, `yyyy-MM-ddT${formData.horario}:00`, false),
+      observacaoAtendimento: formData.observacao ?? '',
+      situacao: formData.situacao,
+      valorAtendimento: formData.valorAtendimento,
+      valorPago: formData.valorPago,
+      mapAtendimentosServicos: servicos
+    };
   }
 }
 
