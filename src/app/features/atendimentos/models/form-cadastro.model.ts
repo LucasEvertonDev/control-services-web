@@ -1,15 +1,16 @@
-import { AtendimentoRequest, MapAtendimentosServicos } from './../../../core/api/services/atendimentos-endpoint/requests/atendimento.request';
+import { CreateAtendimentoRequest, MapAtendimentosServicos } from '../../../core/api/services/atendimentos-endpoint/requests/create-atendimento.request';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { DateHelper } from 'src/app/core/helpers/date-helper';
 import { ComboItem } from "src/app/shared/models/combo-item.model";
+import * as moment from 'moment';
 
 export class FormCadastroAtendimentos {
   public constructor(atentimentoModel?: {}) {
     this.id = new FormControl<string | null>(
       { value: null, disabled: false },
       { nonNullable: true, validators: [] },);
-    this.data = new FormControl<Date>(
-      { value: new Date(), disabled: false },
+    this.data = new FormControl<Date | null | any>(
+      { value: moment(new Date()), disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.cliente = new FormControl<ComboItem | null>(
       { value: null, disabled: false },
@@ -37,7 +38,7 @@ export class FormCadastroAtendimentos {
   }
 
   public id: FormControl<string | null>;
-  public data: FormControl<Date>;
+  public data: FormControl<Date | null | any>;
   public cliente: FormControl<ComboItem | null>;
   public situacao: FormControl<number>;
   public valorAtendimento: FormControl<number>;
@@ -51,7 +52,7 @@ export class FormCadastroAtendimentos {
     return new FormGroup<Servicos>(new Servicos());
   }
 
-  public static GetAtemdimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): AtendimentoRequest {
+  public static GetAtemdimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): CreateAtendimentoRequest {
     let servicos: MapAtendimentosServicos[] = [];
     let formData = formGroup.getRawValue();
 
@@ -65,7 +66,7 @@ export class FormCadastroAtendimentos {
     return {
       clienteAtrasado: formData.clienteAtrasou ?? false,
       clienteId: formData.cliente?.valor ?? '',
-      data: DateHelper.formatDate(formData.data, `yyyy-MM-ddT${formData.horario}:00`, false),
+      data: DateHelper.formatDate(formData.data.toDate(), `yyyy-MM-ddT${formData.horario}:00`, false),
       observacaoAtendimento: formData.observacao ?? '',
       situacao: formData.situacao,
       valorAtendimento: formData.valorAtendimento,

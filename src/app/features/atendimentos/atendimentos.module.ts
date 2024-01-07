@@ -5,11 +5,12 @@ import { AtendimentosRoutingModule } from './atendimentos-routing.module';
 import { AngularMaterialModule } from 'src/app/shared/modules/angular-material.module';
 import { FormularioComponent } from './components/formulario/formulario.component';
 import { CadastroAtendimentoConstantsService } from './services/cadastro-atendimento-constants.service';
-
+import { ConsultaComponent } from './components/consulta/consulta.component';
 
 @NgModule({
   declarations: [
-    FormularioComponent
+    FormularioComponent,
+    ConsultaComponent
   ],
   imports: [
     CommonModule,

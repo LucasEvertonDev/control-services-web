@@ -1,4 +1,4 @@
-export interface AtendimentoRequest {
+export interface CreateAtendimentoRequest {
     data: string;
     clienteId: string;
     clienteAtrasado?: boolean;

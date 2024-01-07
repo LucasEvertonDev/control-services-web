@@ -22,7 +22,7 @@ export class BaseComponent implements OnDestroy{
     this.actvatedRouter = inject.get(ActivatedRoute);
     this.avisoService = inject.get(AvisoService);
 
-    this.novaEntrada = !(this.actvatedRouter.snapshot.url[0].path === 'edit');
+    this.novaEntrada = !(this.actvatedRouter.snapshot.url[0]?.path === 'edit');
   }
 
   public ngOnDestroy(): void {
