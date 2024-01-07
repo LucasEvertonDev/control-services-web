@@ -1,4 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { ComboItem } from "src/app/shared/models/combo-item.model";
 
 export class FormCadastroAtendimentos {
   public constructor(atentimentoModel?: {}) {
@@ -10,18 +11,27 @@ export class FormCadastroAtendimentos {
       { nonNullable: true, validators: [Validators.required] },);
     this.cliente = new FormControl<ComboItem | null>(
       { value: null, disabled: false },
-      { nonNullable: true, validators: [Validators.required] },);
+      { nonNullable: true, validators: [comboItemRequired()] },);
     this.situacao = new FormControl<number>(
       { value: Situacao.Agendado, disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.valorAtendimento = new FormControl<number>(
       { value: 0, disabled: true },
       { nonNullable: true, validators: [] },);
+    this.valorPago = new FormControl<number>(
+      { value: 0, disabled: false },
+      { nonNullable: true, validators: [Validators.required] },);
+    this.clienteAtrasou = new FormControl<boolean>(
+      { value: false, disabled: false },
+      { nonNullable: true, validators: [] },);
     this.servicos = new FormArray<FormGroup<Servicos>>(
       [new FormGroup<Servicos>(new Servicos())]);
     this.horario = new FormControl<string>(
-      { value: new Date().getHours() + ":00", disabled: false },
+      { value: String(new Date().getHours()).padStart(2, '0') + ":00", disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
+    this.observacao = new FormControl<string | null>(
+      { value: null, disabled: false },
+      { nonNullable: true, validators: [] },);
   }
 
   public id: FormControl<string | null>;
@@ -29,8 +39,11 @@ export class FormCadastroAtendimentos {
   public cliente: FormControl<ComboItem | null>;
   public situacao: FormControl<number>;
   public valorAtendimento: FormControl<number>;
+  public valorPago: FormControl<number>;
+  public clienteAtrasou: FormControl<boolean>;
   public servicos: FormArray<FormGroup<Servicos>>;
   public horario: FormControl<string>;
+  public observacao: FormControl<string | null>;
 
   public static AddItem(): FormGroup<Servicos> {
     return new FormGroup<Servicos>(new Servicos());
@@ -41,10 +54,10 @@ class Servicos {
   public constructor() {
     this.servico = new FormControl<ComboItem | null>(
       { value: null, disabled: false },
-      { nonNullable: true, validators: [] },);
+      { nonNullable: true, validators: [comboItemRequired()] },);
     this.valorServico = new FormControl<number | null>(
       { value: null, disabled: false },
-      { nonNullable: true, validators: [] },);
+      { nonNullable: true, validators: [Validators.required] },);
   }
 
   public servico: FormControl<ComboItem | null>;
@@ -62,9 +75,9 @@ export interface ComboSituacao {
   valor: Situacao;
 }
 
-export interface ComboItem {
+export interface ComboSimNao {
   descricao: string;
-  valor: string;
+  valor: boolean;
 }
 
 export const Situacoes: ComboSituacao[] = [
@@ -72,3 +85,21 @@ export const Situacoes: ComboSituacao[] = [
   { descricao: 'Cancelado', valor: Situacao.Cancelado },
   { descricao: 'Concluido', valor: Situacao.Concluido }
 ];
+
+export const OpcpesConfirma: ComboSimNao[] = [
+  { descricao: 'Sim', valor: true },
+  { descricao: 'Não', valor: false },
+];
+
+export function comboItemRequired(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const valor = control.value;
+
+    if (!valor || !valor.descricao) {
+      return { 'custom-required': { value: valor } };
+    }
+
+    return null;
+  };
+}
+

@@ -1,35 +1,34 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ComboItem, ComboSituacao, FormCadastroAtendimentos, Situacoes } from '../../models/form-cadastro.model';
-import { AvisoService } from 'src/app/shared/services/snackbar.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, map, of, startWith, take, tap } from 'rxjs';
+import { ComboSimNao, OpcpesConfirma } from './../../models/form-cadastro.model';
+import { BaseComponent, } from '../../../../shared/components/base/component-base.component';
+import { Component, Injector } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ComboSituacao, FormCadastroAtendimentos, Situacoes } from '../../models/form-cadastro.model';
+import { map, startWith, take, takeUntil, tap } from 'rxjs';
 import { ClientesApiService } from 'src/app/core/api/services/clientes-endpoint/clientes-api.service';
 import { ServicoApiService } from 'src/app/core/api/services/servicos-endpoint/servicos-api.service';
+import { ComboItem, ComboItemGroup } from 'src/app/shared/models/combo-item.model';
+import { CadastroAtendimentoConstantsService } from '../../services/cadastro-atendimento-constants.service';
 
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
   styleUrl: './formulario.component.scss'
 })
-export class FormularioComponent {
+export class FormularioComponent extends BaseComponent {
   public formCadastro!: FormGroup<FormCadastroAtendimentos>;
-  public novaEntrada: boolean;
   public situacoes: ComboSituacao[] = Situacoes;
-  public clientes!: ComboItem[];
-  public servicos!: ComboItem[];
-  public clientesFiltrados!: Observable<ComboItem[]>;
-  public servicosFiltrados!: Observable<ComboItem[]>;
+  public clientes: ComboItemGroup = new ComboItemGroup();
+  public servicos: ComboItemGroup = new ComboItemGroup();
+  public opcoesConfirma: ComboSimNao[] = OpcpesConfirma;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private actvatedRouter: ActivatedRoute,
-    private AvisoService: AvisoService,
-    private router: Router,
+    protected override inject: Injector,
     private clienteApiService: ClientesApiService,
-    private servicoApiService: ServicoApiService
+    private servicoApiService: ServicoApiService,
+    public CONSTS: CadastroAtendimentoConstantsService
   ) {
-    this.novaEntrada = !(this.actvatedRouter.snapshot.url[0].path === 'edit');
+    super(inject);
+
     if (!this.novaEntrada) {
 
     }
@@ -48,14 +47,15 @@ export class FormularioComponent {
     this.clienteApiService.getClientes(1, 1000, {}).pipe(take(1))
       .subscribe(response => {
         if (response.success) {
-          this.clientes = response.content.items.map<ComboItem>(item => {
+          this.clientes.itens = response.content.items.map<ComboItem>(item => {
             return {
               descricao: item.nome,
               valor: item.id
             }
           });
 
-          this.clientesFiltrados = this.formCadastro.controls.cliente.valueChanges.pipe(
+          this.clientes.itensFiltrados = this.formCadastro.controls.cliente.valueChanges.pipe(
+            takeUntil(this.ngUnsubscribe$),
             startWith(this.formCadastro.controls.cliente.value),
             map(value => this.filtrarClientes(value)),
           );
@@ -67,7 +67,7 @@ export class FormularioComponent {
     this.servicoApiService.getServicos(1, 1000, {}).pipe(take(1))
       .subscribe(response => {
         if (response.success) {
-          this.servicos = response.content.items.map<ComboItem>(item => {
+          this.servicos.itens = response.content.items.map<ComboItem>(item => {
             return {
               descricao: item.nome,
               valor: item.id
@@ -75,31 +75,20 @@ export class FormularioComponent {
           });
 
           this.formCadastro.controls.servicos.controls.forEach((item) => {
-            this.servicosFiltrados = item.controls.servico.valueChanges.pipe(
+            this.servicos.itensFiltrados = item.controls.servico.valueChanges.pipe(
+              takeUntil(this.ngUnsubscribe$),
               startWith(item.controls.servico.value),
               map(value => this.filtrarServicos(value)),
             );
 
-            item.controls.valorServico.valueChanges.subscribe((value) => {
-              this.valorTotalAtendimento();
-            });
+            item.controls.valorServico.valueChanges
+              .pipe(takeUntil(this.ngUnsubscribe$))
+              .subscribe((value) => {
+                this.valorTotalAtendimento();
+              });
           });
         }
       });
-  }
-
-  private filtrarClientes(value: any): ComboItem[] {
-    return this.clientes?.filter(option => !value
-      || option.descricao?.toLowerCase().startsWith(value?.descricao ? value.descricao?.toLowerCase() : value.toLowerCase()));
-  }
-
-  private filtrarServicos(value: any): ComboItem[] {
-    return this.servicos?.filter(option => !value
-      || option.descricao?.toLowerCase().startsWith(value?.descricao ? value.descricao?.toLowerCase() : value.toLowerCase()));
-  }
-
-  public exibiDescricaoItem(opcao: any): string {
-    return opcao ? opcao.descricao : '';
   }
 
   public removeItem(i: number): void {
@@ -107,20 +96,33 @@ export class FormularioComponent {
       this.formCadastro.controls.servicos.removeAt(i);
   }
 
+  public addItem(): void {
+    var item = FormCadastroAtendimentos.AddItem();
+    this.servicos.itensFiltrados = item.controls.servico.valueChanges.pipe(
+      takeUntil(this.ngUnsubscribe$),
+      startWith(this.formCadastro.controls.cliente.value),
+      map(value => this.filtrarServicos(value)),
+    );
+
+    item.controls.valorServico.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((value) => this.valorTotalAtendimento());
+
+    this.formCadastro.controls.servicos.push(item);
+  }
+
   public valorTotalAtendimento() {
     this.formCadastro.controls.valorAtendimento.setValue(
       this.formCadastro.controls.servicos.controls.reduce((acumulador, elemento) => acumulador + (elemento.controls.valorServico.value ?? 0), 0));
   }
 
-  public addItem(): void {
-    var item = FormCadastroAtendimentos.AddItem();
-    this.servicosFiltrados = item.controls.servico.valueChanges.pipe(
-      startWith(this.formCadastro.controls.cliente.value),
-      map(value => this.filtrarServicos(value)),
-    );
+  private filtrarClientes(value: any): ComboItem[] {
+    return this.clientes.itens?.filter(option => !value
+      || option.descricao?.toLowerCase().startsWith(value?.descricao ? value.descricao?.toLowerCase() : value.toLowerCase()));
+  }
 
-    item.controls.valorServico.valueChanges.subscribe((value) => this.valorTotalAtendimento());
-
-    this.formCadastro.controls.servicos.push(item);
+  private filtrarServicos(value: any): ComboItem[] {
+    return this.servicos?.itens.filter(option => !value
+      || option.descricao?.toLowerCase().startsWith(value?.descricao ? value.descricao?.toLowerCase() : value.toLowerCase()));
   }
 }

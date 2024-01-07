@@ -1,6 +1,5 @@
 <h4 class="fw-bold py-3 mb-4">
-    <span class="fw-bold fw-light"><a routerLink="/home">Dashboard</a> / <a routerLink="/atendimentos">Atendimentos</a>
-        / Cadastro</span>
+    <span class="fw-bold fw-light"><a routerLink="/home">Dashboard</a> / <a routerLink="/atendimentos">Atendimentos</a> / Cadastro</span>
 </h4>
 
 <div class="card mb-12">
@@ -16,27 +15,38 @@
                     <input matInput [matDatepicker]="picker" [formControl]="formCadastro.controls.data">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                    <mat-error
+                        *ngIf="formCadastro.controls.data.touched && formCadastro.controls.data.hasError('required')">
+                        {{CONSTS.DATA_AGENDAMENTO_OBRIGATORIA}}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-2 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Horário</mat-label>
-                    <input matInput mask="00:00" [formControl]="formCadastro.controls.horario"
-                        [dropSpecialCharacters]="false" autocomplete="off" />
+                    <input matInput mask="00:00" [formControl]="formCadastro.controls.horario" [dropSpecialCharacters]="false" autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.horario.touched && formCadastro.controls.horario.hasError('required')">
+                        {{CONSTS.HORARIO_AGENDAMENTO_OBRIGATORIO}}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
-                    <mat-label>Cliente</mat-label>
+                    <mat-label>Cliente*</mat-label>
                     <input matInput [formControl]="formCadastro.controls.cliente" [matAutocomplete]="auto">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="exibiDescricaoItem">
-                        @for (option of clientesFiltrados | async; track option) {
-                        <mat-option [value]="option">{{option.descricao}}</mat-option>
+                        @for (option of clientes.itensFiltrados| async; track option) {
+                            <mat-option [value]="option">{{option.descricao}}</mat-option>
                         }
                     </mat-autocomplete>
+                    <mat-error
+                        *ngIf="formCadastro.controls.cliente.touched && formCadastro.controls.cliente.hasError('custom-required')">
+                        {{CONSTS.CLIENTE_OBRIGATORIO}}
+                    </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Situações</mat-label>
                     <mat-select [formControl]="formCadastro.controls.situacao">
@@ -44,46 +54,81 @@
                             {{ situacao.descricao }}
                         </mat-option>
                     </mat-select>
+                    <mat-error
+                        *ngIf="formCadastro.controls.situacao.touched && formCadastro.controls.situacao.hasError('required')">
+                        {{CONSTS.SITUACAO_OBRIGATORIO}}
+                    </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-md-2 col-sm-12 col-xs-12 form-item">
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
                 <mat-form-field appearance="outline" class="mat-form-custom">
                     <mat-label>Valor Atendimento</mat-label>
                     <input type="text" matInput [formControl]="formCadastro.controls.valorAtendimento" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
                 </mat-form-field>
             </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item" *ngIf="formCadastro.controls.situacao.value == CONSTS.SITUACAO_CONCLUIDO">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Valor Pago</mat-label>
+                    <input type="text" matInput [formControl]="formCadastro.controls.valorPago" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
+                    <mat-error
+                        *ngIf="formCadastro.controls.valorPago.touched && formCadastro.controls.valorPago.hasError('required')">
+                        {{CONSTS.VALOR_PAGO_OBRIGATORIO}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 form-item" *ngIf="formCadastro.controls.situacao.value == CONSTS.SITUACAO_CONCLUIDO">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Cliente Atrasou?</mat-label>
+                    <mat-select [formControl]="formCadastro.controls.clienteAtrasou">
+                        <mat-option *ngFor="let confirma of opcoesConfirma" [value]="confirma.valor">
+                            {{ confirma.descricao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div class="col-md-2 col-sm-12 col-xs-12 form-item">
-                <a style="width: 100%;height: 45.6px;" (click)="addItem()" class mat-raised-button
-                    color="primary">Incluir Serviço</a>
+                <a style="width: 100%;height: 45.6px;" (click)="addItem()" class mat-raised-button color="primary">Incluir Serviço</a>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 form-item" *ngIf="formCadastro.controls.situacao.value == CONSTS.SITUACAO_CONCLUIDO">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Observações</mat-label>
+                    <textarea [formControl]="formCadastro.controls.observacao" matInput autocomplete="off" ></textarea>
+                </mat-form-field>
             </div>
             <div class="col-12">
                 <h3 class="FormTitle col-12">Listagem de Serviços</h3>
                 <mat-divider class="mb-4"></mat-divider>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12 " formArrayName="servicos"
-                *ngFor="let item of formCadastro.controls.servicos.controls;let i=index">
+            <div class="col-md-6 col-sm-12 col-xs-12 " formArrayName="servicos" *ngFor="let item of formCadastro.controls.servicos.controls;let i=index">
                 <div class="row" [formGroupName]="i">
                     <div class="col-md-6 col-sm-12 col-xs-12 form-item">
                         <mat-form-field appearance="outline" class="mat-form-custom">
-                            <mat-label>Servico</mat-label>
+                            <mat-label>Serviço*</mat-label>
                             <input matInput [formControl]="item.controls.servico" [matAutocomplete]="auto2">
                             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="exibiDescricaoItem">
-                                @for (option of servicosFiltrados | async; track option) {
+                                @for (option of servicos.itensFiltrados | async; track option) {
                                     <mat-option [value]="option">{{option.descricao}}</mat-option>
                                 }
                             </mat-autocomplete>
+                            <mat-error
+                                *ngIf="item.controls.servico.touched && item.controls.servico.hasError('custom-required')">
+                                {{CONSTS.SERVICO_OBRIGATORIO}}
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-md-4 col-sm-12 col-xs-12 form-item">
                         <mat-form-field appearance="outline" class="mat-form-custom">
                             <mat-label>Valor</mat-label>
                             <input type="text" matInput [formControl]="item.controls.valorServico" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
+                            <mat-error
+                                *ngIf="item.controls.valorServico.touched && item.controls.valorServico.hasError('required')">
+                                {{CONSTS.VALOR_SERVICO_OBRIGATORIO}}
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12 form-item">
-                        <a style="width: 100%;height: 45.6px;" (click)="removeItem(i)" class mat-raised-button
-                            color="primary">
-                            <mat-icon>remove</mat-icon>
+                        <a (click)="removeItem(i)" class="button-add" mat-raised-button color="primary">
+                            <mat-icon >remove</mat-icon>
                         </a>
                     </div>
                 </div>
@@ -96,13 +141,11 @@
             <div class="mb-3">
                 <div class="mb-3 botoes">
                     <button routerLink="/clientes" mat-raised-button color="accent">
-                        Fechar
-                        <mat-icon>keyboard_backspace</mat-icon>
+                        Fechar <mat-icon>keyboard_backspace</mat-icon>
                     </button>
                     <button mat-raised-button color="primary" [disabled]="!formCadastro.valid && formCadastro.disable">
-                        Salvar
-                        <mat-icon>save</mat-icon>
-                    </button>
+                        Salvar <mat-icon>save</mat-icon>
+                    </button> 
                 </div>
             </div>
         </form>
