@@ -6,18 +6,22 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { CalendarioComponent } from './components/calendario/calendario.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    CalendarioComponent
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     MatSidenavModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    FullCalendarModule
   ]
 })
 export class HomeModule { }
