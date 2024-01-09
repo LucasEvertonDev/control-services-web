@@ -31,4 +31,7 @@ export class AtendimentoApiService {
         });
     }
 
+    public getAtendimentoPorId(id: string): Observable<DTO<AtendimentoResponse>> {
+        return this.appClient.HttpGet<AtendimentoResponse>(`atendimentos/${id}`);
+    }
 }

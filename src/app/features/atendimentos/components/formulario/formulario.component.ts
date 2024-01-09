@@ -16,7 +16,7 @@ import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-en
   styleUrl: './formulario.component.scss'
 })
 export class FormularioComponent extends BaseComponent {
-  public formCadastro!: FormGroup<FormCadastroAtendimentos>;
+  public formCadastro: FormGroup<FormCadastroAtendimentos> = new FormGroup<FormCadastroAtendimentos>(new FormCadastroAtendimentos());
   public situacoes: ComboSituacao[] = Situacoes;
   public clientes: ComboItemGroup = new ComboItemGroup();
   public servicos: ComboItemGroup = new ComboItemGroup();
@@ -32,7 +32,12 @@ export class FormularioComponent extends BaseComponent {
     super(inject);
 
     if (!this.novaEntrada) {
-
+      this.atendimentoApiService.getAtendimentoPorId(this.actvatedRouter.snapshot.url[1].path)
+        .subscribe((response) => {
+          if (response.success) {
+            this.formCadastro = this.formBuilder.group<FormCadastroAtendimentos>(new FormCadastroAtendimentos(response.content));
+          }
+        });
     }
     else {
       this.formCadastro = this.formBuilder.group<FormCadastroAtendimentos>(new FormCadastroAtendimentos());
@@ -45,7 +50,7 @@ export class FormularioComponent extends BaseComponent {
     this.atendimentoApiService.createAtendimento(FormCadastroAtendimentos.GetAtemdimentoRequest(this.formCadastro))
       .pipe(take(1))
       .subscribe((response) => {
-        if(response.success) {
+        if (response.success) {
           this.avisoService.ShowSucess(this.CONSTS.ATENDIMENTO_CADASTRADO_SUCESSO);
           this.formCadastro.disable();
         }

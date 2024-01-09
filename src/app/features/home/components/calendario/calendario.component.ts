@@ -52,7 +52,9 @@ export class CalendarioComponent {
       month:    'MÊS',
       week:     'SEMANA',
       day:      'DIA',
-      list:     'LISTA'
+      list:     'LISTA',
+      next: 'PRÓXIMO',
+      prev: 'ANTERIOR'
     },
     views: {
       timeGridFourDay: {

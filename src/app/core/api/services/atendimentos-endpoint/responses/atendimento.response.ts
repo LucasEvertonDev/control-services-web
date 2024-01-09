@@ -7,7 +7,7 @@ export interface AtendimentoResponse {
     observacaoAtendimento: string
     situacao: number
     cliente: Cliente
-    mapAtendimentosServicos: MapAtendimentosServico[]
+    mapAtendimentosServicos: MapAtendimentosServicoResponse[]
   }
   
   export interface Cliente {
@@ -19,7 +19,7 @@ export interface AtendimentoResponse {
     situacao: number
   }
   
-  export interface MapAtendimentosServico {
+  export interface MapAtendimentosServicoResponse {
     id: string
     valor: number
     servico: Servico

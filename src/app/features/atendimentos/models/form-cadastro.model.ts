@@ -3,37 +3,37 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Valida
 import { DateHelper } from 'src/app/core/helpers/date-helper';
 import { ComboItem } from "src/app/shared/models/combo-item.model";
 import * as moment from 'moment';
+import { AtendimentoResponse, MapAtendimentosServicoResponse } from 'src/app/core/api/services/atendimentos-endpoint/responses/atendimento.response';
 
 export class FormCadastroAtendimentos {
-  public constructor(atentimentoModel?: {}) {
+  public constructor(atend?: AtendimentoResponse) {
     this.id = new FormControl<string | null>(
-      { value: null, disabled: false },
+      { value: atend?.id ?? null, disabled: false },
       { nonNullable: true, validators: [] },);
     this.data = new FormControl<Date | null | any>(
-      { value: moment(new Date()), disabled: false },
+      { value: atend?.data ? moment(atend.data) : moment(new Date()), disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.cliente = new FormControl<ComboItem | null>(
-      { value: null, disabled: false },
+      { value: FormCadastroAtendimentos.getCliente(atend), disabled: false },
       { nonNullable: true, validators: [comboItemRequired()] },);
     this.situacao = new FormControl<number>(
-      { value: Situacao.Agendado, disabled: false },
+      { value: atend?.situacao ?? Situacao.Agendado, disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.valorAtendimento = new FormControl<number>(
-      { value: 0, disabled: true },
+      { value: atend?.valorAtendimento ?? 0, disabled: true },
       { nonNullable: true, validators: [] },);
     this.valorPago = new FormControl<number>(
-      { value: 0, disabled: false },
+      { value: atend?.valorPago ?? 0, disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.clienteAtrasou = new FormControl<boolean>(
-      { value: false, disabled: false },
+      { value: atend?.clienteAtrasado ?? false, disabled: false },
       { nonNullable: true, validators: [] },);
-    this.servicos = new FormArray<FormGroup<Servicos>>(
-      [new FormGroup<Servicos>(new Servicos())]);
+    this.servicos = new FormArray<FormGroup<FormGroupServicos>>(FormCadastroAtendimentos.getServicos(atend));
     this.horario = new FormControl<string>(
-      { value: String(new Date().getHours()).padStart(2, '0') + ":00", disabled: false },
+      { value: FormCadastroAtendimentos.getHorario(atend?.data), disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
     this.observacao = new FormControl<string | null>(
-      { value: null, disabled: false },
+      { value: atend?.observacaoAtendimento ?? null, disabled: false },
       { nonNullable: true, validators: [] },);
   }
 
@@ -44,12 +44,12 @@ export class FormCadastroAtendimentos {
   public valorAtendimento: FormControl<number>;
   public valorPago: FormControl<number>;
   public clienteAtrasou: FormControl<boolean>;
-  public servicos: FormArray<FormGroup<Servicos>>;
+  public servicos: FormArray<FormGroup<FormGroupServicos>>;
   public horario: FormControl<string>;
   public observacao: FormControl<string | null>;
 
-  public static AddItem(): FormGroup<Servicos> {
-    return new FormGroup<Servicos>(new Servicos());
+  public static AddItem(): FormGroup<FormGroupServicos> {
+    return new FormGroup<FormGroupServicos>(new FormGroupServicos());
   }
 
   public static GetAtemdimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): CreateAtendimentoRequest {
@@ -74,20 +74,57 @@ export class FormCadastroAtendimentos {
       mapAtendimentosServicos: servicos
     };
   }
-}
 
-class Servicos {
-  public constructor() {
+  private static getCliente(atendimento?: AtendimentoResponse | null): ComboItem | null {
+    if(!atendimento)
+      return null;
+
+    return {
+      descricao: atendimento.cliente.nome,
+      valor: atendimento.cliente.id
+    }
+  }
+
+  private static getServicos(atendimento?: AtendimentoResponse | null): FormGroup<FormGroupServicos>[] {
+    if(!atendimento)
+      return [new FormGroup<FormGroupServicos>(new FormGroupServicos())];
+
+    return atendimento.mapAtendimentosServicos.map<FormGroup<FormGroupServicos>>((map => {
+      return new FormGroup<FormGroupServicos>(new FormGroupServicos(map));
+    }));
+  }
+
+  private static getHorario(date?: string): string {
+    if(!date) {
+      return String(new Date().getHours()).padStart(2, '0') + ":00";
+    }
+
+    return  date.substring(10, 16).padEnd(10);
+  }
+} 
+
+class FormGroupServicos {
+  public constructor(map?: MapAtendimentosServicoResponse) {
     this.servico = new FormControl<ComboItem | null>(
-      { value: null, disabled: false },
+      { value: FormGroupServicos.getServico(map), disabled: false },
       { nonNullable: true, validators: [comboItemRequired()] },);
     this.valorServico = new FormControl<number | null>(
-      { value: null, disabled: false },
+      { value: map?.valor ?? null, disabled: false },
       { nonNullable: true, validators: [Validators.required] },);
   }
 
   public servico: FormControl<ComboItem | null>;
   public valorServico: FormControl<number | null>;
+
+  private static getServico(map?: MapAtendimentosServicoResponse): ComboItem | null {
+    if(!map)
+      return null;
+
+    return {
+      descricao: map.servico.nome,
+      valor: map.servico.id
+    };
+  }
 }
 
 export enum Situacao {

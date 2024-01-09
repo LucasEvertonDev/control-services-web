@@ -1,0 +1,28 @@
+@media only screen and (max-width: 848px) {
+    ::ng-deep full-calendar > div.fc-toolbar {
+        display: block !important;
+    }
+
+    ::ng-deep full-calendar > div.fc-toolbar > div.fc-left,
+    ::ng-deep full-calendar > div.fc-toolbar > div.fc-center,
+    ::ng-deep full-calendar > div.fc-toolbar > div.fc-right {
+        float: none !important;
+        display:inline-block !important;
+    }
+
+    ::ng-deep full-calendar > div.fc-toolbar > div.fc-center > button {
+        padding: 5px 5px !important
+    }
+
+    ::ng-deep full-calendar > div.fc-toolbar > * > :not(:first-child) {
+        margin-left: 2px;
+    }
+
+    ::ng-deep full-calendar > div.fc-toolbar.fc-header-toolbar > div.fc-center > button:nth-child(2) {
+        margin-right: 5px;
+    }
+
+    ::ng-deep full-calendar > div.fc-toolbar.fc-header-toolbar > div.fc-center > h2 {
+        margin-right: 5px !important;
+    }
+}
