@@ -45,12 +45,19 @@ export class CalendarioComponent {
     editable: true,
     selectable: true,
     selectMirror: true,
+    slotMinTime: '7:00',
+    slotMaxTime: '19:00',
     buttonText: {
       today:    'HOJE',
       month:    'MÊS',
       week:     'SEMANA',
       day:      'DIA',
       list:     'LISTA'
+    },
+    views: {
+      timeGridFourDay: {
+        type: 'timeGrid',
+      }
     },
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
