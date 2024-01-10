@@ -127,7 +127,7 @@
                         </mat-form-field>
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12 form-item">
-                        <a (click)="removeItem(i)" class="button-add" mat-raised-button color="primary">
+                        <a (click)="removeItem(i)" [disabled]="this.formCadastro.controls.servicos.length === 1" class="button-add" mat-raised-button color="primary">
                             <mat-icon >remove</mat-icon>
                         </a>
                     </div>

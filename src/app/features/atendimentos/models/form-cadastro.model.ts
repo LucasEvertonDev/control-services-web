@@ -84,14 +84,14 @@ export class FormCadastroAtendimentos {
       servicos.push({
         servicoId: item.servico?.valor ?? '',
         valorCobrado: item.valorServico ?? 0,
-        id: item.id ?? ''
+        id: item.id ?? null
       });
     });
 
     return {
       clienteAtrasado: formData.clienteAtrasou ?? false,
       clienteId: formData.cliente?.valor ?? '',
-      data: DateHelper.parseToDate(DateHelper.formatDate(formData.data.toDate(), `yyyy-MM-ddT${formData.horario.trim()}:00`, false)),
+      data: DateHelper.formatDate(formData.data.toDate(), `yyyy-MM-ddT${formData.horario.trim()}:00`, false),
       observacaoAtendimento: formData.observacao ?? '',
       situacao: formData.situacao,
       valorAtendimento: formData.valorAtendimento,
@@ -124,7 +124,7 @@ export class FormCadastroAtendimentos {
       return String(new Date().getHours()).padStart(2, '0') + ":00";
     }
 
-    return  date.substring(10, 16).padEnd(10);
+    return  date.substring(11, 16).padEnd(10);
   }
 } 
 

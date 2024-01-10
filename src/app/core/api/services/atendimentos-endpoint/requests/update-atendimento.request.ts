@@ -1,5 +1,5 @@
 export interface UpdateAtendimentoRequest {
-    data: Date;
+    data: string;
     clienteId: string;
     clienteAtrasado?: boolean;
     valorAtendimento: number;
@@ -9,7 +9,7 @@ export interface UpdateAtendimentoRequest {
     mapAtendimentosServicos: (MapAtendimentosServicosUpdate)[] | null;
   }
   export interface MapAtendimentosServicosUpdate {
-    id: string;
+    id?: string | null;
     servicoId: string;
     valorCobrado: number;
   }

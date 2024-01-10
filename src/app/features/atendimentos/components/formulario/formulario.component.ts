@@ -123,15 +123,15 @@ export class FormularioComponent extends BaseComponent {
   }
 
   public removeItem(i: number): void {
-    if (i !== 0)
+    if (this.formCadastro.controls.servicos.length !== 1)
       this.formCadastro.controls.servicos.removeAt(i);
   }
 
   public addItem(): void {
     var item = FormCadastroAtendimentos.AddItem();
     this.servicos.itensFiltrados = item.controls.servico.valueChanges.pipe(
+      startWith(item.value.servico?.valor),
       takeUntil(this.ngUnsubscribe$),
-      startWith(this.formCadastro.controls.cliente.value),
       map(value => this.filtrarServicos(value)),
     );
 
