@@ -4,6 +4,7 @@ import { DateHelper } from 'src/app/core/helpers/date-helper';
 import { ComboItem } from "src/app/shared/models/combo-item.model";
 import * as moment from 'moment';
 import { AtendimentoResponse, MapAtendimentosServicoResponse } from 'src/app/core/api/services/atendimentos-endpoint/responses/atendimento.response';
+import { MapAtendimentosServicosUpdate, UpdateAtendimentoRequest } from 'src/app/core/api/services/atendimentos-endpoint/requests/update-atendimento.request';
 
 export class FormCadastroAtendimentos {
   public constructor(atend?: AtendimentoResponse) {
@@ -52,7 +53,7 @@ export class FormCadastroAtendimentos {
     return new FormGroup<FormGroupServicos>(new FormGroupServicos());
   }
 
-  public static GetAtemdimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): CreateAtendimentoRequest {
+  public static GetCreateAtendimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): CreateAtendimentoRequest {
     let servicos: MapAtendimentosServicos[] = [];
     let formData = formGroup.getRawValue();
 
@@ -67,6 +68,30 @@ export class FormCadastroAtendimentos {
       clienteAtrasado: formData.clienteAtrasou ?? false,
       clienteId: formData.cliente?.valor ?? '',
       data: DateHelper.formatDate(formData.data.toDate(), `yyyy-MM-ddT${formData.horario}:00`, false),
+      observacaoAtendimento: formData.observacao ?? '',
+      situacao: formData.situacao,
+      valorAtendimento: formData.valorAtendimento,
+      valorPago: formData.valorPago,
+      mapAtendimentosServicos: servicos
+    };
+  }
+
+  public static GetUpdateAtendimentoRequest(formGroup: FormGroup<FormCadastroAtendimentos>): UpdateAtendimentoRequest {
+    let servicos: MapAtendimentosServicosUpdate[] = [];
+    let formData = formGroup.getRawValue();
+
+    formData.servicos.forEach(item => {
+      servicos.push({
+        servicoId: item.servico?.valor ?? '',
+        valorCobrado: item.valorServico ?? 0,
+        id: item.id ?? ''
+      });
+    });
+
+    return {
+      clienteAtrasado: formData.clienteAtrasou ?? false,
+      clienteId: formData.cliente?.valor ?? '',
+      data: DateHelper.parseToDate(DateHelper.formatDate(formData.data.toDate(), `yyyy-MM-ddT${formData.horario.trim()}:00`, false)),
       observacaoAtendimento: formData.observacao ?? '',
       situacao: formData.situacao,
       valorAtendimento: formData.valorAtendimento,
@@ -105,6 +130,9 @@ export class FormCadastroAtendimentos {
 
 class FormGroupServicos {
   public constructor(map?: MapAtendimentosServicoResponse) {
+    this.id = new FormControl<string | null>(
+      { value: map?.id ?? null, disabled: false },
+      { nonNullable: true, validators: [] },);
     this.servico = new FormControl<ComboItem | null>(
       { value: FormGroupServicos.getServico(map), disabled: false },
       { nonNullable: true, validators: [comboItemRequired()] },);
@@ -113,6 +141,7 @@ class FormGroupServicos {
       { nonNullable: true, validators: [Validators.required] },);
   }
 
+  public id: FormControl<string | null>;
   public servico: FormControl<ComboItem | null>;
   public valorServico: FormControl<number | null>;
 

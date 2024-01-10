@@ -46,12 +46,29 @@ export class FormularioComponent extends BaseComponent {
     this.recuperaServicos();
   }
 
-  public onSubmit() {
-    this.atendimentoApiService.createAtendimento(FormCadastroAtendimentos.GetAtemdimentoRequest(this.formCadastro))
+  public onSubmit(): void {
+    this.formCadastro.controls.id.value ? this.onUpdate() : this.onCreate();
+  }
+
+  public onCreate() {
+    this.atendimentoApiService.createAtendimento(FormCadastroAtendimentos.GetCreateAtendimentoRequest(this.formCadastro))
       .pipe(take(1))
       .subscribe((response) => {
         if (response.success) {
           this.avisoService.ShowSucess(this.CONSTS.ATENDIMENTO_CADASTRADO_SUCESSO);
+          this.formCadastro.disable();
+        }
+      });
+  }
+
+  public onUpdate() {
+    this.atendimentoApiService.updateAtendimento(
+        this.formCadastro.controls.id.value ?? '',
+        FormCadastroAtendimentos.GetUpdateAtendimentoRequest(this.formCadastro))
+      .pipe(take(1))
+      .subscribe((response) => {
+        if (response.success) {
+          this.avisoService.ShowSucess(this.CONSTS.ATENDIMENTO_ATUALIZADO_SUCESSO);
           this.formCadastro.disable();
         }
       });
