@@ -1,20 +1,24 @@
+import { AuthorizationService } from 'src/app/core/services/authorization.services';
 import { AtendimentoResponse } from './responses/atendimento.response';
 import { Injectable } from "@angular/core";
 import { AppClient } from "../../app-client";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { DTO, PaginationResult } from "../../structure/response.model";
 import { CreateAtendimentoRequest } from './requests/create-atendimento.request';
 import { CreateAtendimentoResponse } from './responses/create-atendimento.response';
 import { HttpParams } from "@angular/common/http";
 import { UpdateAtendimentoRequest } from './requests/update-atendimento.request';
 import { UpdateAtendimentoResponse } from './responses/update-atendimento.response';
+import { RemarcarAtendimentoRequest } from './requests/remarcar-atendimento.request';
+import { RemarcarAtendimentoResponse } from './responses/remarcar-atendimento.response';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AtendimentoApiService {
     public constructor(
-        protected appClient: AppClient) {}
+        protected appClient: AppClient, 
+        protected authorizationService: AuthorizationService) {}
 
     public createAtendimento(createCreateAtendimentoRequest: CreateAtendimentoRequest): Observable<DTO<CreateAtendimentoResponse>> {
         return this.appClient.HttpPost<CreateAtendimentoResponse>("atendimentos", createCreateAtendimentoRequest, {});
@@ -24,7 +28,15 @@ export class AtendimentoApiService {
         return this.appClient.HttpPut<UpdateAtendimentoResponse>(`atendimentos/${id}`, updateAtendimento, {});
     }
 
-    public getAtendimentos(pagenumber: number, pageSize: number, parametros: any): Observable<DTO<PaginationResult<AtendimentoResponse>>> {
+    public remarcarAtendimento(id: string, remarcarAtendimentoRequest: RemarcarAtendimentoRequest): Observable<DTO<RemarcarAtendimentoResponse>> {
+        return this.appClient.HttpPut<RemarcarAtendimentoResponse>(`atendimentos/remarcar/${id}`, remarcarAtendimentoRequest, {});
+    }
+
+    public getAtendimentos(pagenumber: number, pageSize: number, parametros: any): Observable<DTO<PaginationResult<AtendimentoResponse>> | null> {
+        if (!this.authorizationService.usuarioEstaLogadoRedirect()) {
+            return of(null);
+        }
+       
         let params = new HttpParams();
         for (const key in parametros) {
             if (parametros.hasOwnProperty(key) && parametros[key]) {

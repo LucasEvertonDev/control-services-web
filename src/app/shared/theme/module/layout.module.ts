@@ -6,6 +6,9 @@ import { LayoutAccountComponent } from '../views/layout-account/layout-account.c
 import { LayoutMenuComponent } from '../views/layout-menu/layout-menu.component';
 import { LayoutNavBarComponent } from '../views/layout-nav-bar/layout-nav-bar.component';
 import { RouterModule } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -26,7 +29,10 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class LayoutModule { }

@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { optionsHttp } from "./structure/options.model";
 import { DTO } from "./structure/response.model";
 import { AvisoService } from "src/app/shared/services/snackbar.service";
+import { AuthorizationService } from "../services/authorization.services";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,8 @@ export class AppClient {
     protected urlApiBase!: string;
 
     constructor(private readonly _httpClient: HttpClient,
-        private AvisoService: AvisoService) {
+        private AvisoService: AvisoService,
+        private authorizationService: AuthorizationService) {
         this.SetBaseUrl(environment.ApiUrl);
     }
 

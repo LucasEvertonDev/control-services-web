@@ -59,8 +59,10 @@ export class ConsultaComponent extends BaseComponent {
     })
       .pipe(take(1))
       .subscribe((response) => {
-        this.paginationResult = response.content;
-        this.items = response.content.items;
+        if(response) {
+          this.paginationResult = response.content;
+          this.items = response.content.items;
+        }
       });
   }
 

@@ -1,3 +1,4 @@
+import { AvisoService } from './../../../../shared/services/snackbar.service';
 import { Component , signal, ChangeDetectorRef } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventChangeArg, EventInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -6,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 import { take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendario',
@@ -33,6 +35,7 @@ export class CalendarioComponent {
       endTime: '19:00', // an end time (6pm in this example),
       daysOfWeek: [ 1, 2, 3, 4, 5,6 ],
     },
+    events: this.carregarEventos.bind(this),
     dayHeaderClassNames: 'header_novo',
     locale:'pt-br',
     eventTimeFormat: { // like '14:30:00'
@@ -66,10 +69,7 @@ export class CalendarioComponent {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     eventChange: ((arg: EventChangeArg) => {
-      //arg.oldEvent._context.calendarApi.view.type;
-      console.log(arg);
-      // arg.event.start,
-      // arg.event.id
+      this.remarcarAgendamento(arg.event.id, arg.event.start, arg.event.end, arg.oldEvent._context.calendarApi.view.type, arg);
     }),
     /* you can update a remote database when these fire:
     eventAdd:
@@ -80,41 +80,56 @@ export class CalendarioComponent {
   public currentEvents = signal<EventApi[]>([]);
 
   public constructor(private changeDetector: ChangeDetectorRef, 
-    private atendimentosApiService: AtendimentoApiService) {
-      this.atendimentosApiService.getAtendimentos(1, 10000, {})
-        .pipe(take(1))
-        .subscribe(response => {
-          response.content.items.forEach((atendimento => {
-            this.atendimentos.push({
-              id: atendimento.id,
-              title: ` -  ${atendimento.cliente.nome.split(" ")[0]}`,
-              start: atendimento.data,
-              extendedProps: {
-                servico: atendimento.mapAtendimentosServicos[0].servico.nome
-              }
-            });
+    private router: Router,
+    private atendimentosApiService: AtendimentoApiService,
+    private avisoService: AvisoService) {
+  }
 
-            this.calendarOptions.update((options) => ({
-              ...options,
-              events: this.atendimentos,
-            }));
+  public carregarEventos(info: any, successCallback: any, failureCallback: any): void {
+    this.atendimentosApiService.getAtendimentos(1, 10000, { 
+        datainicial: info.startStr,
+        datafinal: info.endStr
+      })
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          const eventos =  response?.content?.items?.map((atendimento) => ({
+            id: atendimento.id,
+            title: ` -  ${atendimento.cliente.nome.split(' ')[0]}`,
+            start: atendimento.data,
+            extendedProps: {
+              servico: atendimento.mapAtendimentosServicos[0].servico.nome,
+            },
           }));
-        });
+
+          successCallback(eventos ?? []);
+        },
+        error: (error) => {
+          console.error('Erro ao carregar eventos:', error);
+          failureCallback(error);
+        },
+      });
   }
 
-  public handleCalendarToggle() {
-    this.calendarVisible.update((bool) => !bool);
-  }
-
-  public handleWeekendsToggle() {
-    this.calendarOptions.update((options) => ({
-      ...options,
-      weekends: !options.weekends,
-    }));
-  }
-
-  public remarcarAgendamento() {
-
+  public remarcarAgendamento(id: string, dataInicio: Date | null, dataFim: Date | null, type: string, arg: EventChangeArg) {
+    this.atendimentosApiService.remarcarAtendimento(id, {
+      data: dataInicio
+    })
+    .pipe(take(1))
+    .subscribe({
+      next: (response) => {
+        if (!response.success) {
+          arg.revert();
+        }
+        else {
+          // this.avisoService.ShowSucess("Agendamento atualizado com sucesso");
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar eventos:', error);
+        arg.revert();
+      },
+    });
   }
 
   public handleDateSelect(selectInfo: DateSelectArg) {
@@ -135,14 +150,11 @@ export class CalendarioComponent {
   }
 
   public handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
+    this.router.navigate(['/atendimentos/edit', clickInfo.event.id]);
   }
 
   public handleEvents(events: EventApi[]) {
     this.currentEvents.set(events);
-    // console.log(JSON.stringify(events));
     this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
   }
 }

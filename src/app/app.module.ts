@@ -14,6 +14,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import {MatMenuModule} from '@angular/material/menu';
 
 registerLocaleData(localePt);
 @NgModule({

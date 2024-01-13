@@ -1,8 +1,9 @@
+import { Router } from '@angular/router';
 import { TokenModel } from '../api/structure/token.model';
 import { LoginResponse } from '../api/services/auth-endpoint/responses/login.response';
 import { DTO } from '../api/structure/response.model';
 import { Injectable, Injector } from "@angular/core";
-import { BehaviorSubject, Observable, map } from "rxjs";
+import { BehaviorSubject, Observable, map, take } from "rxjs";
 import { jwtDecode } from "jwt-decode";
 import { AppClient } from '../api/app-client';
 import { RefreshTokenResponse } from '../api/services/auth-endpoint/responses/refreshtoken.response';
@@ -14,7 +15,7 @@ export class AuthorizationService {
     private subjectLogin: BehaviorSubject<any> = new BehaviorSubject(false);
     private subjectToken: BehaviorSubject<TokenModel> = new BehaviorSubject({} as TokenModel);
     
-    public constructor() {}
+    public constructor(private router: Router) {}
 
     public login(response: DTO<LoginResponse>) : void {
         if (response && response.success) {
@@ -46,6 +47,17 @@ export class AuthorizationService {
 
         return this.subjectLogin.asObservable();
     }
+
+    public usuarioEstaLogadoRedirect(): boolean {
+        var token = sessionStorage.getItem('token');
+        
+        if (!token) {
+            this.router.navigate(["/auth"]);
+            return false;
+        }
+
+        return true;
+    } 
 
     public getToken(): Observable<any> {
         return this.subjectToken.asObservable();

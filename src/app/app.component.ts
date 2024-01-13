@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
 
         console.log('Session expired...');
  
-        if (currentRoute !== '/login') {
+        if (currentRoute !== '/auth') {
           console.log('Redirecting to login screen...')
           this.authorizationService.logOut();
           this.router.navigateByUrl('/auth');
