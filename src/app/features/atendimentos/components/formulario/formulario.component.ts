@@ -36,6 +36,13 @@ export class FormularioComponent extends BaseComponent {
         .subscribe((response) => {
           if (response.success) {
             this.formCadastro = this.formBuilder.group<FormCadastroAtendimentos>(new FormCadastroAtendimentos(response.content));
+            this.formCadastro.controls.servicos.controls.forEach(item => {
+              item.controls.valorServico.valueChanges
+                .pipe(takeUntil(this.ngUnsubscribe$))
+                .subscribe((value) => {
+                  this.valorTotalAtendimento();
+                });
+            });
           }
         });
     }
