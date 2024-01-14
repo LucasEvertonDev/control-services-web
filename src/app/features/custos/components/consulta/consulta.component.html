@@ -1,0 +1,90 @@
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home">Dashboard</a> / </span>Custos
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Consultar Custos</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
+            <div class="col-md-4 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Período</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                      <input matStartDate [formControl]="formConsulta.controls.dataInicio" placeholder="De">
+                      <input matEndDate [formControl]="formConsulta.controls.dataFim" placeholder="Até">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+
+            <mat-divider class="mb-4"></mat-divider>
+            <div class="mb-3">
+                <div class="mb-3 botoes">
+                    <button mat-raised-button color="primary">
+                        Buscar
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button routerLink="/custos/create" mat-raised-button color="accent">
+                        Novo
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div>
+            <div class="mb-3 table-div table-responsive mat-elevation-z1">
+                <table class="table table-round-corner">
+                    <thead class="table">
+                        <tr class="">
+                            <th colspan="col-4">
+                                Data
+                            </th>
+                            <th colspan="col-1">
+                                Valor
+                            </th>
+                            <th colspan="col-6">
+                                Descricao
+                            </th>
+                            <th colspan="col-1">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <td colspan="">
+                                {{item.data}}
+                            </td>
+                            <td colspan="">
+                                {{item.valor}}
+                            </td>
+                            <td colspan="">
+                                {{item.descricao}}
+                            </td>
+                            <td colspan="">
+                                <a class="btn btn-default" routerLink='/custos/edit/{{item.id}}' >
+                                    <span class="tf-icons bx bx-edit"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!items || items.length == 0 ">
+                            <td [colSpan]="12" style="text-align: center;">
+                                Sem resultados para a consulta
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="items" class="pb-2">
+                <mat-paginator [length]="paginationResult.totalElements" [pageSize]="paginationResult.pageSize"
+                    [pageIndex]="paginationResult.pageNumber - 1" [pageSizeOptions]="[2, 10, 25, 100]"
+                    aria-label="Select page" (page)="getCustos($event)">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
