@@ -105,6 +105,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
+              "tippy.js/sist/tippy.css",
               "src/styles.scss"
             ],
             "scripts": [

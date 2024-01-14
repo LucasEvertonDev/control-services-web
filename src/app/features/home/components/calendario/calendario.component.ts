@@ -1,6 +1,7 @@
+import { DateHelper } from './../../../../core/helpers/date-helper';
 import { AvisoService } from './../../../../shared/services/snackbar.service';
 import { Component , signal, ChangeDetectorRef } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventChangeArg, EventInput } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventChangeArg, EventInput, EventMountArg } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -8,11 +9,12 @@ import listPlugin from '@fullcalendar/list';
 import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
+import tippy from 'tippy.js';
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
-  styleUrl: './calendario.component.scss'
+  styleUrl: './calendario.component.scss',
 })
 export class CalendarioComponent {
   private atendimentos: EventInput[] = [];
@@ -56,8 +58,9 @@ export class CalendarioComponent {
       week:     'SEMANA',
       day:      'DIA',
       list:     'LISTA',
-      next: 'PRÓXIMO',
-      prev: 'ANTERIOR'
+      next: '>',
+      prev: '<',
+
     },
     views: {
       timeGridFourDay: {
@@ -71,6 +74,15 @@ export class CalendarioComponent {
     eventChange: ((arg: EventChangeArg) => {
       this.remarcarAgendamento(arg.event.id, arg.event.start, arg.event.end, arg.oldEvent._context.calendarApi.view.type, arg);
     }),
+    eventDidMount: ((arg: EventMountArg) => {
+      tippy(arg.el, {
+        content: this.getTooltip(arg),
+        allowHTML: true,
+        arrow: true,
+        duration: 0,
+        theme: 'light-border',
+      });
+    })
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -93,12 +105,20 @@ export class CalendarioComponent {
       .pipe(take(1))
       .subscribe({
         next: (response) => {
-          const eventos =  response?.content?.items?.map((atendimento) => ({
+          const eventos: EventInput[] | undefined =  response?.content?.items?.map((atendimento) => ({
             id: atendimento.id,
             title: ` -  ${atendimento.cliente.nome.split(' ')[0]}`,
             start: atendimento.data,
+            end: atendimento.dataFim,
+            className: atendimento.emDebito ? "atentimento_debito" : atendimento.agendamentoPendenteAtualizacao ? "atendimento_pendente_atualizacao" : "atendimento_concluido",
+            backgroundColor: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
+            color: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
+            textColor: "black",
+            editable: !(atendimento.emDebito || atendimento.agendamentoPendenteAtualizacao),
             extendedProps: {
-              servico: atendimento.mapAtendimentosServicos[0].servico.nome,
+              clienteNome: atendimento.cliente.nome,
+              servico: atendimento.mapAtendimentosServicos.map(a => `<li>${a.servico.nome}</li>`).join(""),
+              infoAtendimento: atendimento.emDebito ? "Pagamento atrasado" : atendimento.agendamentoPendenteAtualizacao ? "Aguardando conclusão" : "Concluído",
             },
           }));
 
@@ -109,6 +129,22 @@ export class CalendarioComponent {
           failureCallback(error);
         },
       });
+  }
+
+  private getTooltip(arg: EventMountArg): string {
+    return `
+            <div>
+              <strong style="padding: 3px">
+                ${arg.event.extendedProps["clienteNome"]} - ${DateHelper.formatDate(arg.event.start ?? new Date(), "hh:mm", true)} às ${DateHelper.formatDate(arg.event.end ?? new Date(), "hh:mm", true)}
+              </strong>
+              <hr style="margin: 4px 0" />
+              <ul style="margin:0">
+                ${arg.event.extendedProps["servico"]}
+              </ul>
+              <hr style="margin: 4px 0" />
+              <small>Atendimento: <b>${arg.event.extendedProps["infoAtendimento"]}<b></small>
+            </div>
+          `
   }
 
   public remarcarAgendamento(id: string, dataInicio: Date | null, dataFim: Date | null, type: string, arg: EventChangeArg) {

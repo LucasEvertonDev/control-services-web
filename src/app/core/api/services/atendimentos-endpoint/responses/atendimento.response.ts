@@ -7,7 +7,10 @@ export interface AtendimentoResponse {
     observacaoAtendimento: string
     situacao: number
     cliente: Cliente
-    mapAtendimentosServicos: MapAtendimentosServicoResponse[]
+    mapAtendimentosServicos: MapAtendimentosServicoResponse[],
+    emDebito: boolean,
+    agendamentoPendenteAtualizacao: boolean,
+    dataFim: string
   }
   
   export interface Cliente {

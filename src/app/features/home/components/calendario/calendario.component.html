@@ -1,6 +1,14 @@
-<full-calendar *ngIf='calendarVisible()'   slotMinTime='07:00' slotMaxTime='19:00' [options]='calendarOptions()'>
-    <ng-template #eventContent let-arg>
-      <b>{{ arg.timeText  }}</b>
-      <i>{{ arg.event.title }}</i>
-    </ng-template>
+<full-calendar *ngIf='calendarVisible()' slotMinTime='07:00' slotMaxTime='19:00' [options]='calendarOptions()'>
+  <ng-template #eventContent let-arg>
+    @if(arg.view.type == 'dayGridMonth') {
+      <div class="fc-daygrid-event-dot" [style.border-color]="arg.event.backgroundColor"></div>
+      <i style="text-wrap: wrap;">
+        <b>{{ arg.event.start | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
+      </i>
+    } @else {
+      <i style="text-wrap: wrap;">
+        <b>{{ arg.event.start | date: 'HH:mm' }} às {{ arg.event.end | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
+      </i>
+    }
+  </ng-template>
 </full-calendar>
