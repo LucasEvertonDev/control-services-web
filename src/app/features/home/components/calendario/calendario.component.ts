@@ -1,7 +1,7 @@
 import { DateHelper } from './../../../../core/helpers/date-helper';
 import { AvisoService } from './../../../../shared/services/snackbar.service';
-import { Component , signal, ChangeDetectorRef } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventChangeArg, EventInput, EventMountArg } from '@fullcalendar/core';
+import { Component , signal, ChangeDetectorRef, Renderer2 } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventChangeArg, EventInput, EventMountArg, EventDropArg } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -75,14 +75,20 @@ export class CalendarioComponent {
       this.remarcarAgendamento(arg.event.id, arg.event.start, arg.event.end, arg.oldEvent._context.calendarApi.view.type, arg);
     }),
     eventDidMount: ((arg: EventMountArg) => {
-      tippy(arg.el, {
+      const tooltip = document.getElementsByClassName(arg.event.id.replaceAll('-', '_'))[0];
+      tippy(tooltip, { }).destroy();
+      tippy(tooltip, {
         content: this.getTooltip(arg),
         allowHTML: true,
         arrow: true,
         duration: 0,
+        followCursor: true,
         theme: 'light-border',
       });
-    })
+    }),
+    eventDrop: (arg: EventDropArg) => {
+      console.log(arg);
+    }
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -94,7 +100,8 @@ export class CalendarioComponent {
   public constructor(private changeDetector: ChangeDetectorRef, 
     private router: Router,
     private atendimentosApiService: AtendimentoApiService,
-    private avisoService: AvisoService) {
+    private avisoService: AvisoService,
+    private renderer: Renderer2) {
   }
 
   public carregarEventos(info: any, successCallback: any, failureCallback: any): void {
@@ -110,7 +117,7 @@ export class CalendarioComponent {
             title: ` -  ${atendimento.cliente.nome.split(' ')[0]}`,
             start: atendimento.data,
             end: atendimento.dataFim,
-            className: atendimento.emDebito ? "atentimento_debito" : atendimento.agendamentoPendenteAtualizacao ? "atendimento_pendente_atualizacao" : "atendimento_concluido",
+            classNames: [atendimento.emDebito ? "atentimento_debito" : atendimento.agendamentoPendenteAtualizacao ? "atendimento_pendente_atualizacao" : "atendimento_concluido", atendimento.id.replaceAll('-', '_')],
             backgroundColor: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
             color: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
             textColor: "black",
@@ -191,6 +198,7 @@ export class CalendarioComponent {
 
   public handleEvents(events: EventApi[]) {
     this.currentEvents.set(events);
+    console.log(events);
     this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
   }
 }
