@@ -9,7 +9,6 @@ import listPlugin from '@fullcalendar/list';
 import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
-import tippy from 'tippy.js';
 
 @Component({
   selector: 'app-calendario',
@@ -74,18 +73,6 @@ export class CalendarioComponent {
     eventChange: ((arg: EventChangeArg) => {
       this.remarcarAgendamento(arg.event.id, arg.event.start, arg.event.end, arg.oldEvent._context.calendarApi.view.type, arg);
     }),
-    eventDidMount: ((arg: EventMountArg) => {
-      // const tooltip = document.getElementsByClassName(arg.event.id.replaceAll('-', '_'))[0];
-      // tippy(tooltip, { }).destroy();
-      // tippy(tooltip, {
-      //   content: this.getTooltip(arg),
-      //   allowHTML: true,
-      //   arrow: true,
-      //   duration: 0,
-      //   followCursor: true,
-      //   theme: 'light-border',
-      // });
-    }),
     eventDrop: (arg: EventDropArg) => {
       console.log(arg);
     }
@@ -138,27 +125,6 @@ export class CalendarioComponent {
       });
   }
 
-  private getTooltip(arg: EventMountArg): string {
-    return `
-            <div>
-              <strong style="padding: 3px">
-                ${arg.event.extendedProps["clienteNome"]} - ${DateHelper.formatDate(arg.event.start ?? new Date(), "hh:mm", true)} às ${DateHelper.formatDate(arg.event.end ?? new Date(), "hh:mm", true)}
-              </strong>
-              <hr style="margin: 4px 0" />
-              <ul style="margin:0">
-                ${arg.event.extendedProps["servico"]}
-              </ul>
-              <hr style="margin: 4px 0" />
-              <small>Atendimento: <b>${arg.event.extendedProps["infoAtendimento"]}<b></small>
-            </div>
-          `
-  }
-
-  public getHeader()
-  {
-    return $'{arg.event.extendedProps["clienteNome"]} - ${DateHelper.formatDate(arg.event.start ?? new Date(), "hh:mm", true)} às ${DateHelper.formatDate(arg.event.end ?? new Date(), "hh:mm", true)
-  }
-
   public remarcarAgendamento(id: string, dataInicio: Date | null, dataFim: Date | null, type: string, arg: EventChangeArg) {
     this.atendimentosApiService.remarcarAtendimento(id, {
       data: dataInicio
@@ -203,7 +169,6 @@ export class CalendarioComponent {
 
   public handleEvents(events: EventApi[]) {
     this.currentEvents.set(events);
-    console.log(events);
     this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
   }
 }

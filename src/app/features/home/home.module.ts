@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { CalendarioComponent } from './components/calendario/calendario.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -23,7 +23,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     MatListModule,
     RouterModule,
     FullCalendarModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    NgbModule
   ]
 })
 export class HomeModule { }
