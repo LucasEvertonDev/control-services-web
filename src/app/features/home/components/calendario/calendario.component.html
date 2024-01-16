@@ -2,13 +2,19 @@
   <ng-template #eventContent let-arg>
     @if(arg.view.type == 'dayGridMonth') {
       <div class="fc-daygrid-event-dot" [style.border-color]="arg.event.backgroundColor"></div>
-      <i style="text-wrap: wrap;">
+      <i style="text-wrap: wrap;"
+        ngbPopover="You see, I show up on hover!"
+        triggers="mouseenter:mouseleave"
+        popoverTitle="{${arg.event.extendedProps['clienteNome']} - ${DateHelper.formatDate(arg.event.start ?? new Date(), 'hh:mm', true)} às ${DateHelper.formatDate(arg.event.end ?? new Date(), 'hh:mm', true)}">
         <b>{{ arg.event.start | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
       </i>
     } @else {
-      <i style="text-wrap: wrap;">
+      <i style="text-wrap: wrap;" 
+        ngbPopover="You see, I show up on hover!"
+        triggers="mouseenter:mouseleave"
+        popoverTitle="Pop title">
         <b>{{ arg.event.start | date: 'HH:mm' }} às {{ arg.event.end | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
-      </i>
+      </i> 
     }
   </ng-template>
 </full-calendar>

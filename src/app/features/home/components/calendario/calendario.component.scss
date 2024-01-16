@@ -47,3 +47,7 @@
 //         padding-left: 2px !important;
 //     }
 // }
+
+.popover {
+    z-index: 1010; /* A value higher than 1010 that solves the problem */
+}

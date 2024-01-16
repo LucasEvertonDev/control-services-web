@@ -75,16 +75,16 @@ export class CalendarioComponent {
       this.remarcarAgendamento(arg.event.id, arg.event.start, arg.event.end, arg.oldEvent._context.calendarApi.view.type, arg);
     }),
     eventDidMount: ((arg: EventMountArg) => {
-      const tooltip = document.getElementsByClassName(arg.event.id.replaceAll('-', '_'))[0];
-      tippy(tooltip, { }).destroy();
-      tippy(tooltip, {
-        content: this.getTooltip(arg),
-        allowHTML: true,
-        arrow: true,
-        duration: 0,
-        followCursor: true,
-        theme: 'light-border',
-      });
+      // const tooltip = document.getElementsByClassName(arg.event.id.replaceAll('-', '_'))[0];
+      // tippy(tooltip, { }).destroy();
+      // tippy(tooltip, {
+      //   content: this.getTooltip(arg),
+      //   allowHTML: true,
+      //   arrow: true,
+      //   duration: 0,
+      //   followCursor: true,
+      //   theme: 'light-border',
+      // });
     }),
     eventDrop: (arg: EventDropArg) => {
       console.log(arg);
@@ -152,6 +152,11 @@ export class CalendarioComponent {
               <small>Atendimento: <b>${arg.event.extendedProps["infoAtendimento"]}<b></small>
             </div>
           `
+  }
+
+  public getHeader()
+  {
+    return $'{arg.event.extendedProps["clienteNome"]} - ${DateHelper.formatDate(arg.event.start ?? new Date(), "hh:mm", true)} às ${DateHelper.formatDate(arg.event.end ?? new Date(), "hh:mm", true)
   }
 
   public remarcarAgendamento(id: string, dataInicio: Date | null, dataFim: Date | null, type: string, arg: EventChangeArg) {
