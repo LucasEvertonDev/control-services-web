@@ -104,7 +104,7 @@ export class CalendarioComponent {
             title: ` -  ${atendimento.cliente.nome.split(' ')[0]}`,
             start: atendimento.data,
             end: atendimento.dataFim,
-            classNames: [atendimento.emDebito ? "atentimento_debito" : atendimento.agendamentoPendenteAtualizacao ? "atendimento_pendente_atualizacao" : "atendimento_concluido", atendimento.id.replaceAll('-', '_')],
+            classNames: ["evento_para_zindex", atendimento.emDebito ? "atentimento_debito" : atendimento.agendamentoPendenteAtualizacao ? "atendimento_pendente_atualizacao" : "atendimento_concluido", atendimento.id.replaceAll('-', '_')],
             backgroundColor: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
             color: atendimento.emDebito ? "red" : atendimento.agendamentoPendenteAtualizacao ? "#d9d900" : "#66CDAA",
             textColor: "black",

@@ -48,6 +48,33 @@
 //     }
 // }
 
-.popover {
-    z-index: 1010; /* A value higher than 1010 that solves the problem */
+
+
+::ng-deep .custom-popover {
+      background-color: #f8f9fa;
+      color: #343a40;
+      border: 1px solid #dee2e6;
+      width: 700px;
+}
+
+::ng-deep .custom-popover .arrow::before {
+      border-bottom-color: #f8f9fa;
+    }
+
+::ng-deep .custom-popover {
+    max-width: none; /* Permite que o popover cresça conforme necessário */
+    width: auto !important; /* Define a largura automaticamente */
+    white-space: nowrap; /* Evita que o conteúdo seja quebrado em várias linhas */
+}
+    
+::ng-deep .custom-popover .popover-body {
+    max-width: 100%; /* Garante que o conteúdo da popover não ultrapasse a largura máxima */
+}
+
+::ng-deep .custom-popover.show {
+    z-index: 1051 !important; /* Ajuste conforme necessário */
+}
+
+::ng-deep full-calendar > .evento_para_zindex {
+    z-index: 0 !important;
 }
