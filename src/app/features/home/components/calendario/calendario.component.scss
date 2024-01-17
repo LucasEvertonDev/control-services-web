@@ -1,80 +1,48 @@
-
 @media only screen and (max-width: 848px) {
-    ::ng-deep full-calendar > div.fc-toolbar {
+    ::ng-deep full-calendar>div.fc-toolbar {
         display: block !important;
     }
 
-    ::ng-deep full-calendar > div.fc-toolbar > div.fc-left,
-    ::ng-deep full-calendar > div.fc-toolbar > div.fc-center,
-    ::ng-deep full-calendar > div.fc-toolbar > div.fc-right {
+    ::ng-deep full-calendar>div.fc-toolbar>div.fc-left,
+    ::ng-deep full-calendar>div.fc-toolbar>div.fc-center,
+    ::ng-deep full-calendar>div.fc-toolbar>div.fc-right {
         float: none !important;
-        display:inline-block !important;
+        display: inline-block !important;
     }
 
-    ::ng-deep full-calendar > div.fc-toolbar > div.fc-center > button {
+    ::ng-deep full-calendar>div.fc-toolbar>div.fc-center>button {
         padding: 5px 5px !important
     }
 
-    ::ng-deep full-calendar > div.fc-toolbar > * > :not(:first-child) {
+    ::ng-deep full-calendar>div.fc-toolbar>*> :not(:first-child) {
         margin-left: 2px;
     }
 
-    ::ng-deep full-calendar > div.fc-toolbar.fc-header-toolbar > div.fc-center > button:nth-child(2) {
+    ::ng-deep full-calendar>div.fc-toolbar.fc-header-toolbar>div.fc-center>button:nth-child(2) {
         margin-right: 5px;
     }
 
-    ::ng-deep full-calendar > div.fc-toolbar.fc-header-toolbar > div.fc-center > h2 {
+    ::ng-deep full-calendar>div.fc-toolbar.fc-header-toolbar>div.fc-center>h2 {
         margin-right: 5px !important;
     }
 }
 
-// ::ng-deep full-calendar {
-//     .atentimento_debito {
-//         background-color: red !important;
-//         color: black;
-//         padding-left: 2px !important;
-//     }
+::ng-deep .custom-popover {
+    background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #dee2e6;
+}
 
-//     .atendimento_pendente_atualizacao {
-//         background-color: #d9d900 !important;
-//         color: black;
-//         padding-left: 2px !important;
-//     }
-
-//     .atendimento_concluido {
-//         background-color: #66CDAA !important;
-//         color: black;
-//         padding-left: 2px !important;
-//     }
-// }
-
-
+::ng-deep .custom-popove.arrow::before {
+    border-bottom-color: #f8f9fa;
+}
 
 ::ng-deep .custom-popover {
-      background-color: #f8f9fa;
-      color: #343a40;
-      border: 1px solid #dee2e6;
-      width: 700px;
+    max-width: none;
+    width: auto !important;
+    white-space: nowrap;
 }
 
-::ng-deep .custom-popover .arrow::before {
-      border-bottom-color: #f8f9fa;
-    }
-
-::ng-deep .custom-popover {
-    max-width: none; /* Permite que o popover cresça conforme necessário */
-    width: auto !important; /* Define a largura automaticamente */
-    white-space: nowrap; /* Evita que o conteúdo seja quebrado em várias linhas */
-}
-    
-::ng-deep .custom-popover .popover-body {
-    max-width: 100%; /* Garante que o conteúdo da popover não ultrapasse a largura máxima */
-}
-
-::ng-deep .custom-popover.show {
-    z-index: 1051 !important; /* Ajuste conforme necessário */
-}
-
-::ng-deep full-calendar > .evento_para_zindex {
-    z-index: 0 !important;
+.line {
+   margin-top: 0;
 }

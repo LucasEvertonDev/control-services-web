@@ -75,7 +75,7 @@ export class CalendarioComponent {
     }),
     eventDrop: (arg: EventDropArg) => {
       console.log(arg);
-    }
+    },
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:

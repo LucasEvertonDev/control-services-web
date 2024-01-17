@@ -116,3 +116,15 @@ mat-form-field:not(.mat-mdc-paginator-page-size-select) {
 .dropdown-menu {
     z-index: 2000 !important;
 }
+
+.fc-timegrid-event .fc-event-main {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 0px;
+}
+
+
+.custom-popover2 {
+    height: 1002px !important;
+}
