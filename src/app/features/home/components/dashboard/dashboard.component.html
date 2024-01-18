@@ -1,47 +1,66 @@
-<div class="row">
-    <div class="col-lg-3 col-3 mb-4">
-        <div class="card">
-            <div class="card-body dashItens">
-                <span class="d-block mb-1">LUCRO: 10/2023</span>
-                <h3 class="card-title text-nowrap mb-2"><b>R$ 100</b></h3>
-                <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
+<div class="item">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            @defer {
+            <div class="card">
+                <div class="card-body totalizadores text-center">
+                    <label>LUCRO: {{date | date: 'MM/YY'}}</label>
+                    <strong>{{ totalizador.lucro | currency:'BRL' }}</strong>
+                </div>
             </div>
+            } @placeholder (minimum 1000ms) {
+            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
+            }
+        </div>
+        <div class="col-md-3 col-3 mb-4">
+            @defer {
+            <div class="card">
+
+                <div class="card-body totalizadores text-center">
+                    <label>P/ RECEBER: {{date | date: 'MM/YY'}}</label>
+                    <strong>{{ totalizador.receber | currency:'BRL' }}</strong>
+                </div>
+            </div>
+            } @placeholder (minimum 1000ms) {
+            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
+            }
+        </div>
+        <div class="col-md-3 col-3 mb-4">
+            @defer {
+            <div class="card">
+                <div class="card-body totalizadores text-center">
+                    <label>CONCLUÍDOS: {{date | date: 'MM/YY'}}</label>
+                    <strong>{{ totalizador.concluidos }}</strong>
+                </div>
+            </div>
+            } @placeholder (minimum 1000ms) {
+            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
+            }
+        </div>
+        <div class="col-md-3 col-3 mb-4">
+            @defer {
+            <div class="card">
+                <div class="card-body totalizadores text-center">
+                    <label>AGENDADOS: {{date | date: 'MM/YY'}}</label>
+                    <strong>{{ totalizador.agendados }}</strong>
+                </div>
+            </div>
+            } @placeholder (minimum 1000ms) {
+            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
+            }
         </div>
     </div>
-    <div class="col-lg-3 col-3 mb-4">
-        <div class="card">
-            <div class="card-body dashItens">
-                <span class="d-block mb-1">LUCRO: 10/2023</span>
-                <h3 class="card-title text-nowrap mb-2"><b>R$ 100</b></h3>
-                <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
+    <div class="row">
+        <div class="col-lg-12 col-12 mb-4">
+            @defer {
+            <div class="card mb-12">
+                <div class="card-body">
+                    <app-calendario></app-calendario>
+                </div>
             </div>
+            } @placeholder (minimum 1000ms) {
+            <ngx-skeleton-loader [theme]="{ height: '800px'}" />
+            }
         </div>
     </div>
-    <div class="col-lg-3 col-3 mb-4">
-        <div class="card">
-            <div class="card-body dashItens">
-                <span class="d-block mb-1">LUCRO: 10/2023</span>
-                <h3 class="card-title text-nowrap mb-2"><b>R$ 100</b></h3>
-                <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-3 mb-4">
-        <div class="card">
-            <div class="card-body dashItens">
-                <span class="d-block mb-1">LUCRO: 10/2023</span>
-                <h3 class="card-title text-nowrap mb-2"><b>R$ 100</b></h3>
-                <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-  <div class="col-lg-12 col-12 mb-4">
-      <div class="card mb-12">
-          <div class="card-body">
-             <app-calendario></app-calendario>
-         </div>
-     </div>
- </div>
 </div>

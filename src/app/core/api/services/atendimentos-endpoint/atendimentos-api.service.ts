@@ -11,6 +11,8 @@ import { UpdateAtendimentoRequest } from './requests/update-atendimento.request'
 import { UpdateAtendimentoResponse } from './responses/update-atendimento.response';
 import { RemarcarAtendimentoRequest } from './requests/remarcar-atendimento.request';
 import { RemarcarAtendimentoResponse } from './responses/remarcar-atendimento.response';
+import { TotalizadoresResponse } from './responses/totalizadores.response';
+import { DateHelper } from 'src/app/core/helpers/date-helper';
 
 @Injectable({
     providedIn: 'root'
@@ -51,5 +53,13 @@ export class AtendimentoApiService {
 
     public getAtendimentoPorId(id: string): Observable<DTO<AtendimentoResponse>> {
         return this.appClient.HttpGet<AtendimentoResponse>(`atendimentos/${id}`);
+    }
+    public getTotalizadores(): Observable<DTO<TotalizadoresResponse>> {
+        let params = new HttpParams();
+        var date = new Date();
+        params.append('datainicio', DateHelper.formatDate(new Date(date.getFullYear(), date.getMonth(), 1),  "yyyy-MM-dd", false));
+        params.append('datafim', DateHelper.formatDate(new Date(date.getFullYear(), date.getMonth() + 1, 0),  "yyyy-MM-dd", false));
+
+        return this.appClient.HttpGet<TotalizadoresResponse>(`atendimentos/totalizadores`, {params: params});
     }
 }

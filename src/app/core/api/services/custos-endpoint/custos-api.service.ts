@@ -15,8 +15,8 @@ export class CustosApiService {
     public getCustos(pagenumber: number, pageSize: number, parametros: any): Observable<DTO<PaginationResult<CustosResponse>>> {
         let params = new HttpParams();
         for (const key in parametros) {
-            if (parametros.hasOwnProperty(key)) {
-              params = params.set(key, parametros[key].toString());
+            if (parametros.hasOwnProperty(key) && parametros[key]) {
+                params = params.set(key, parametros[key]);
             }
         }
 

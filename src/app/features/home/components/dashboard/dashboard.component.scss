@@ -1,34 +1,14 @@
-// /* app-sidenav/app-sidenav.component.scss */
 
-// .sidenav-container {
-//   height: 100vh;
-// }
-
-// .sidenav {
-//   width: 200px;
-// }
-
-// .sidenav-content {
-//   padding: 20px;
-// }
-
-// .mat-nav-list a {
-//   text-decoration: none;
-//   color: black;
-// }
-
-// .mat-nav-list a:hover {
-//   background-color: #e0e0e0;
-// }
-
-
-// .align-items-start {
-//   flex-direction: column;
-// }
-
-
-.dashItens {
-  span {
-    font-size: x-large;
+.card-body.totalizadores {
+  strong {
+      font-size: 30px !important;
+      margin-top: 10px;
+      margin-bottom: 10px;
   }
-}
+
+  align-items: center ;
+  display: flex;
+  justify-content:space-between;
+  flex-direction: column;
+  text-align: center !important;
+} 

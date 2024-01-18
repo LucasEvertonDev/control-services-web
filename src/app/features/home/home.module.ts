@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { CalendarioComponent } from './components/calendario/calendario.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule,
     FullCalendarModule,
     NgbPopoverModule,
+    NgxSkeletonLoaderModule,
     NgbModule
   ]
 })
