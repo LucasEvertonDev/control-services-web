@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { Chart } from 'chart.js';
 import { take } from 'rxjs';
 import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 import { TotalizadoresResponse } from 'src/app/core/api/services/atendimentos-endpoint/responses/totalizadores.response';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
