@@ -1,14 +1,12 @@
 import { AfterViewInit, Component, ElementRef, Input, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Observable, defer, fromEvent, of, switchMap } from 'rxjs';
 Chart.register(...registerables);
-
 @Component({
-  selector: 'app-grafico-servicos-mes',
-  templateUrl: './grafico-servicos-mes.component.html',
-  styleUrl: './grafico-servicos-mes.component.scss'
+  selector: 'app-grafico-melhores-clientes',
+  templateUrl: './grafico-melhores-clientes.component.html',
+  styleUrl: './grafico-melhores-clientes.component.scss'
 })
-export class GraficoServicosMesComponent implements AfterViewInit {
+export class GraficoMelhoresClientesComponent implements AfterViewInit {
   @ViewChild('myChart') myChart!: ElementRef;
   constructor(private renderer: Renderer2) {
     

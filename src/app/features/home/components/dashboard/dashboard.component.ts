@@ -10,7 +10,12 @@ import { TotalizadoresResponse } from 'src/app/core/api/services/atendimentos-en
 })
 export class DashboardComponent  {
   public date: Date = new Date();
-  public totalizador!: TotalizadoresResponse;
+  public totalizador: TotalizadoresResponse = {
+    agendados: 0,
+    concluidos: 0,
+    lucro: 0,
+    receber: 0
+  };
 
   public constructor(private atendimentoApiService: AtendimentoApiService) {
     this.atendimentoApiService.getTotalizadores()
