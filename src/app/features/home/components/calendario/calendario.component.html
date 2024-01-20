@@ -1,26 +1,35 @@
-<full-calendar *ngIf='calendarVisible()' slotMinTime='07:00' slotMaxTime='19:00' [options]='calendarOptions()'>
-  <ng-template #eventContent let-arg>
-    <ng-template #popContent>
-      <label><b>{{ arg.event.extendedProps["clienteNome"] }} - {{ arg.event.start | date: 'HH:mm' }} às {{ arg.event.end
-          | date:'HH:mm' }}</b></label>
-      <hr class="line">
-      <ul style="margin-top:0" [innerHTML]="arg.event.extendedProps['servico']"></ul>
-      <small>Atendimento: <b>{{ arg.event.extendedProps["infoAtendimento"] }}</b></small>
-    </ng-template>
+@defer {
+<div class="card">
+  <div class="card-body">
+    <full-calendar *ngIf='calendarVisible()' slotMinTime='07:00' slotMaxTime='19:00' [options]='calendarOptions()'>
+      <ng-template #eventContent let-arg>
+        <ng-template #popContent>
+          <label><b>{{ arg.event.extendedProps["clienteNome"] }} - {{ arg.event.start | date: 'HH:mm' }} às {{
+              arg.event.end
+              | date:'HH:mm' }}</b></label>
+          <hr class="line">
+          <ul style="margin-top:0" [innerHTML]="arg.event.extendedProps['servico']"></ul>
+          <small>Atendimento: <b>{{ arg.event.extendedProps["infoAtendimento"] }}</b></small>
+        </ng-template>
 
-    @if(arg.view.type == 'dayGridMonth') {
-    <div class="fc-daygrid-event-dot" [style.border-color]="arg.event.backgroundColor"></div>
-    <i style="text-wrap: wrap;" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverClass="custom-popover"
-      container="body">
-      <b>{{ arg.event.start | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
-    </i>
-    } @else {
-    <i style="text-wrap: wrap;" [ngbPopover]="popContent" container="body" popoverClass="custom-popover"
-      triggers="mouseenter:mouseleave">
-      <b>
-        {{ arg.event.start | date: 'HH:mm' }} às {{ arg.event.end | date: 'HH:mm' }}</b> - {{
-      arg.event.extendedProps["clienteNome"].split(" ")[0] }}
-    </i>
-    }
-  </ng-template>
-</full-calendar>
+        @if(arg.view.type == 'dayGridMonth') {
+        <div class="fc-daygrid-event-dot" [style.border-color]="arg.event.backgroundColor"></div>
+        <i style="text-wrap: wrap;" [ngbPopover]="popContent" triggers="mouseenter:mouseleave"
+          popoverClass="custom-popover" container="body">
+          <b>{{ arg.event.start | date: 'HH:mm' }}</b> - {{ arg.event.extendedProps["clienteNome"].split(" ")[0] }}
+        </i>
+        } @else {
+        <i style="text-wrap: wrap;" [ngbPopover]="popContent" container="body" popoverClass="custom-popover"
+          triggers="mouseenter:mouseleave">
+          <b>
+            {{ arg.event.start | date: 'HH:mm' }} às {{ arg.event.end | date: 'HH:mm' }}</b> - {{
+          arg.event.extendedProps["clienteNome"].split(" ")[0] }}
+        </i>
+        }
+      </ng-template>
+    </full-calendar>
+  </div>
+</div>
+} @placeholder (minimum 1000ms) {
+<ngx-skeleton-loader [theme]="{ height: '800px'}" />
+}

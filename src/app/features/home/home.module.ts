@@ -10,12 +10,16 @@ import { CalendarioComponent } from './components/calendario/calendario.componen
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CardComponent } from './components/card/card.component';
+import { GraficoServicosMesComponent } from './components/grafico-servicos-mes/grafico-servicos-mes.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    CalendarioComponent
+    CalendarioComponent, 
+    CardComponent,
+    GraficoServicosMesComponent
   ],
   imports: [
     CommonModule,

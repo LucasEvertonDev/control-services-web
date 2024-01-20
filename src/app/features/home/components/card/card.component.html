@@ -1,0 +1,9 @@
+@defer {
+    <div class="card">
+        <div [ngClass]="totalizadores ? 'card-body totalizadores text-center' : 'card-body'">
+            <ng-content></ng-content>
+        </div>
+    </div>
+} @placeholder (minimum 1000ms) {
+    <ngx-skeleton-loader [theme]="themeConfig" />
+}

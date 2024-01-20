@@ -1,80 +1,35 @@
 <div class="item">
     <div class="row">
-        <div class="col-md-3 mb-4 col-xs-12">
-            @defer {
-            <div class="card">
-                <div class="card-body totalizadores text-center">
-                    <label>LUCRO: {{date | date: 'MM/YY'}}</label>
-                    <strong>{{ totalizador.lucro | currency:'BRL' }}</strong>
-                </div>
-            </div>
-            } @placeholder (minimum 1000ms) {
-            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
-            }
-        </div>
-        <div class="col-md-3 mb-4 col-xs-12">
-            @defer {
-            <div class="card">
-                <div class="card-body totalizadores text-center">
-                    <label>P/ RECEBER: {{date | date: 'MM/YY'}}</label>
-                    <strong>{{ totalizador.receber | currency:'BRL' }}</strong>
-                </div>
-            </div>
-            } @placeholder (minimum 1000ms) {
-            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
-            }
-        </div>
-        <div class="col-md-3 mb-4 col-xs-12">
-            @defer {
-            <div class="card">
-                <div class="card-body totalizadores text-center">
-                    <label>CONCLUÍDOS: {{date | date: 'MM/YY'}}</label>
-                    <strong>{{ totalizador.concluidos }}</strong>
-                </div>
-            </div>
-            } @placeholder (minimum 1000ms) {
-            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
-            }
-        </div>
-        <div class="col-md-3 mb-4 col-xs-12">
-            @defer {
-            <div class="card">
-                <div class="card-body totalizadores text-center">
-                    <label>AGENDADOS: {{date | date: 'MM/YY'}}</label>
-                    <strong>{{ totalizador.agendados }}</strong>
-                </div>
-            </div>
-            } @placeholder (minimum 1000ms) {
-            <ngx-skeleton-loader [theme]="{ height: '120px'}" />
-            }
-        </div>
+        <app-card [themeConfig]="{ height: '120px'}" class="col-md-3 mb-4 col-xs-12" [totalizadores]="true">
+            <label>LUCRO: {{date | date: 'MM/YY'}}</label>
+            <strong>{{ totalizador.lucro | currency:'BRL' }}</strong>
+        </app-card>
+
+        <app-card [themeConfig]="{ height: '120px'}" class="col-md-3 mb-4 col-xs-12" [totalizadores]="true">
+            <label>P/ RECEBER: {{date | date: 'MM/YY'}}</label>
+            <strong>{{ totalizador.receber | currency:'BRL' }}</strong>
+        </app-card>
+
+        <app-card [themeConfig]="{ height: '120px'}" class="col-md-3 mb-4 col-xs-12" [totalizadores]="true">
+            <label>CONCLUÍDOS: {{date | date: 'MM/YY'}}</label>
+            <strong>{{ totalizador.concluidos }}</strong>
+        </app-card>
+
+        <app-card [themeConfig]="{ height: '120px'}" class="col-md-3 mb-4 col-xs-12" [totalizadores]="true">
+            <label>AGENDADOS: {{date | date: 'MM/YY'}}</label>
+            <strong>{{ totalizador.agendados }}</strong>
+        </app-card>
     </div>
+
     <div class="row">
         <div class="col-lg-12 col-12 mb-4 col-xs-12">
-            @defer {
-            <div class="card mb-12">
-                <div class="card-body">
-                    <app-calendario></app-calendario>
-                </div>
-            </div>
-            } @placeholder (minimum 1000ms) {
-            <ngx-skeleton-loader [theme]="{ height: '800px'}" />
-            }
+            <app-calendario></app-calendario>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3 ">
-            <div class="card">
-                <div class="card-body">
-                    <canvas #myChart id='{{this.chart}}'></canvas>
-                </div>
-            </div>
-            <!-- @defer {
-                
-                } @placeholder (minimum 1000ms) {
-                <ngx-skeleton-loader [theme]="{ height: '400px'}" />
-            } -->
+            <app-grafico-servicos-mes></app-grafico-servicos-mes>
         </div>
     </div>
 </div>
