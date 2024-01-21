@@ -1,0 +1,61 @@
+<h4 class="fw-bold py-3 mb-4">
+    <span class="fw-bold fw-light"><a routerLink="/home" >Dashboard</a> / <a routerLink="/custos" >Custos</a>  / Cadastro</span>
+</h4>
+
+<div class="card mb-12">
+    <div class="card-header">
+        <h2>Cadastro Custos</h2>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="card-body">
+        <form class="form row" [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+            <div class="col-md-3 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Data</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="formCadastro.controls.data">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error
+                        *ngIf="formCadastro.controls.data.touched && formCadastro.controls.data.hasError('required')">
+                        Data é obrigatória
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput [formControl]="formCadastro.controls.descricao" autocomplete="off" />
+                    <mat-error
+                        *ngIf="formCadastro.controls.descricao.touched && formCadastro.controls.descricao.hasError('required')">
+                        Descrição é obrigatória
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12 form-item">
+                <mat-form-field appearance="outline" class="mat-form-custom">
+                    <mat-label>Valor</mat-label>
+                    <input type="text" matInput [formControl]="formCadastro.controls.valor" decimalMarker="," mask="separator.2" thousandSeparator="." autocomplete="off">
+                    <mat-error
+                        *ngIf="formCadastro.controls.valor.touched && formCadastro.controls.valor.hasError('required')">
+                        Valor é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-divider class="mb-4"></mat-divider>
+            </div>
+            <div class="mb-3">
+                <div class="mb-3 botoes">
+                    <a routerLink="/custos" mat-raised-button color="accent">
+                        Fechar
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </a>
+                    <button mat-raised-button color="primary" [disabled]="!formCadastro.valid && formCadastro.disable">
+                        Salvar
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

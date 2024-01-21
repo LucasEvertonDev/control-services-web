@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
+
 @Component({
   selector: 'app-grafico-melhores-clientes',
   templateUrl: './grafico-melhores-clientes.component.html',
@@ -8,8 +9,7 @@ Chart.register(...registerables);
 })
 export class GraficoMelhoresClientesComponent implements AfterViewInit {
   @ViewChild('myChart') myChart!: ElementRef;
-  constructor(private renderer: Renderer2) {
-    
+  constructor() {
   }
 
   private data = {

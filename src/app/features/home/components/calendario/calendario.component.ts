@@ -9,6 +9,7 @@ import listPlugin from '@fullcalendar/list';
 import { AtendimentoApiService } from 'src/app/core/api/services/atendimentos-endpoint/atendimentos-api.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
+import { Situacao } from 'src/app/features/atendimentos/models/form-cadastro.model';
 
 @Component({
   selector: 'app-calendario',
@@ -112,7 +113,7 @@ export class CalendarioComponent {
             extendedProps: {
               clienteNome: atendimento.cliente.nome,
               servico: atendimento.mapAtendimentosServicos.map(a => `<li>${a.servico.nome}</li>`).join(""),
-              infoAtendimento: atendimento.emDebito ? "Pagamento atrasado" : atendimento.agendamentoPendenteAtualizacao ? "Aguardando conclusão" : "Concluído",
+              infoAtendimento: atendimento.emDebito ? "Pagamento atrasado" : atendimento.agendamentoPendenteAtualizacao ? "Aguardando conclusão" : atendimento.situacao == Situacao.Concluido ? "Concluído" : "Agendado",
             },
           }));
 

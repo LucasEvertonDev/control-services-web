@@ -34,7 +34,7 @@ export class ConsultaComponent extends BaseComponent {
     this.getCustos(this.pageEvent);
   }
 
-  public onSubmit() {    
+  public onSubmit() {
     this.getCustos(this.pageEvent);
   }
 
@@ -43,7 +43,7 @@ export class ConsultaComponent extends BaseComponent {
     this.pageEvent = event;
     this.custosApiService.getCustos(event.pageIndex + 1, event.pageSize, {
       datainicial: formData.dataInicio ? DateHelper.formatDate(formData.dataInicio.toDate(), "yyyy-MM-dd", false) : null,
-      datafinal: formData.dataFim ? DateHelper.formatDate(formData.dataFim.toDate(),  "yyyy-MM-dd", false) : null,
+      datafinal: formData.dataFim ? DateHelper.formatDate(formData.dataFim.toDate(), "yyyy-MM-dd", false) : null,
       descricao: formData.descricao,
       valor: formData.valor
     }).pipe(take(1))

@@ -57,10 +57,10 @@
                     <tbody>
                         <tr *ngFor="let item of items">
                             <td colspan="">
-                                {{item.data}}
+                                {{item.data | date: "dd/MM/yyyy"}}
                             </td>
                             <td colspan="">
-                                {{item.valor}}
+                                {{item.valor | currency:'BRL' }}
                             </td>
                             <td colspan="">
                                 {{item.descricao}}
