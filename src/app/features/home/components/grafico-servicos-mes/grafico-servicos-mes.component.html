@@ -1,6 +1,6 @@
 @defer {
     <div class="card">
-        <div class="card-body">
+        <div class="card-body row">
             <div class="col-md-6">
                 <canvas baseChart
                     [labels]="doughnutChartLabels"
@@ -10,8 +10,14 @@
                     [type]="'doughnut'">
                 </canvas>
             </div>
-            <div class="col-md-6" >
-                <label *ngFor="let item of doughnutChartLabels; let i = index" (click)="Teste(i)">{{item}}</label>
+            <div class="col-md-6" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div class="row" *ngFor="let item of doughnutChartLabels; let i = index" style="flex-direction: row;" >
+                    <div class="col-md-6" style="text-align: right;">
+                        <i class="label_color"></i>
+                    </div>
+                    <div>
+                        <label class="col-md-6 legenda"  (click)="Teste(i)">{{item}}</label></div>
+                    </div>
             </div>
         </div>
     </div>

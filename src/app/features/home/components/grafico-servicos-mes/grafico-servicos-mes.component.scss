@@ -1,0 +1,23 @@
+// ::ng-deep .legenda::before{
+//     content: "";
+//     display: inline-block;
+//     width: 10px; /* Ajuste a largura do quadrado conforme necessário */
+//     height: 10px; /* Ajuste a altura do quadrado conforme necessário */
+//     background-color: #3498db; /* Cor de fundo do quadrado */
+//     border: 1px solid #2980b9; /* Cor da borda do quadrado */
+//     margin-right: 5px; /* Espaçamento entre o quadrado e o texto do label */
+// }
+
+.legenda {
+    text-align: center;
+}
+
+.label_color {
+    content: "";
+    display: inline-block;
+    width: 10px; /* Ajuste a largura do quadrado conforme necessário */
+    height: 10px; /* Ajuste a altura do quadrado conforme necessário */
+    background-color: #3498db; /* Cor de fundo do quadrado */
+    border: 1px solid #2980b9; /* Cor da borda do quadrado */
+    margin-right: 5px; /* Espaçamento entre o quadrado e o texto do label */
+}
