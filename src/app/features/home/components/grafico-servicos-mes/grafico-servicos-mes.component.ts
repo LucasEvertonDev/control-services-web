@@ -8,49 +8,47 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrl: './grafico-servicos-mes.component.scss'
 })
 export class GraficoServicosMesComponent implements AfterViewInit {
+  public valores: Data[] = [
+    { key: 'Corte Cabelo', valor: 14, hidden: false, color: 'rgb(255, 99, 132)' },
+    { key: 'Barba', valor : 30, hidden: false, color: 'rgb(54, 162, 235)' },
+    { key: 'Sombracelha',valor : 49, hidden: false, color: 'rgb(255, 205, 86)'}
+  ];
+  
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   constructor(private renderer: Renderer2) {
     
   }
 
-  public doughnutChartLabels: string[] = [ 'Download Sales', 'In-Store Sales', 'Mail-Order Sales' ];
+  public doughnutChartLabels: string[] = this.valores.map(ma => ma.key);
   public doughnutChartDatasets: ChartDataset[] = [{
-    label: 'Número de Atendimentos',
-    data: [14, 30, 49],
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ]
+    label: 'Número de Serviços:',
+    data: this.valores.map(ma => ma.valor),
+    backgroundColor: this.valores.map(ma => ma.color)
   }];
  
   public doughnutChartOptions: ChartOptions = {
     responsive: true
   };
  
-  Teste(posicao: number) {
-    this.doughnutChartDatasets[0].data.splice(posicao, 1);
+  legendaClick(posicao: number, item: string) {
+    this.valores[posicao].hidden = !this.valores[posicao].hidden;
+
+    this.doughnutChartDatasets = [{
+      label: 'Número de Serviços:',
+      data: this.valores.filter((item) => !item.hidden).map(ma => ma.valor),
+      backgroundColor: this.valores.filter((item) => !item.hidden).map(ma => ma.color)
+    }]
+
     this.chart?.chart?.update()
   }
 
   public ngAfterViewInit(): void {
-    // setTimeout(() => {
-    //   var c = new Chart(this.myChart.nativeElement.getContext('2d'), {
-    //     type: 'doughnut',
-    //     data: this.data,
-    //     options: {
-    //       layout: {
-    //         autoPadding: true,
-    //       },
-    //       plugins: {
-    //         legend: {
-    //           position: 'right',
-    //         }
-    //       }
-    //     }
-    //   });
-    // }, 1000);
   }
 }
 
-
+export interface Data {
+  key: string,
+  hidden: boolean,
+  valor: number,
+  color: string
+}

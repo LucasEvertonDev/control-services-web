@@ -1,26 +1,25 @@
 @defer {
-    <div class="card">
-        <div class="card-body row">
-            <div class="col-md-6">
-                <canvas baseChart
-                    [labels]="doughnutChartLabels"
-                    [datasets]="doughnutChartDatasets"
-                    [options]="doughnutChartOptions"
-                    [legend]="false"
-                    [type]="'doughnut'">
-                </canvas>
-            </div>
-            <div class="col-md-6" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div class="row" *ngFor="let item of doughnutChartLabels; let i = index" style="flex-direction: row;" >
-                    <div class="col-md-6" style="text-align: right;">
-                        <i class="label_color"></i>
+<div class="card mb-4">
+    <div class="card-body row">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <label class="card-title">Melhores Serviços</label>
+            <canvas baseChart [labels]="doughnutChartLabels" [datasets]="doughnutChartDatasets"
+                [options]="doughnutChartOptions" [legend]="false" [type]="'doughnut'">
+            </canvas>
+        </div>
+        <div class="col-md-6 col-xs-12 col-legenda mb-4">
+            <div class="row row-legenda" *ngFor="let item of valores; let i = index">
+                <div class="col-md-7  mx-auto class-temp" (click)="legendaClick(i, item.key)">
+                    <div class="col-md-2 label_color" [ngStyle]="{ 'background-color': item.color}">
                     </div>
-                    <div>
-                        <label class="col-md-6 legenda"  (click)="Teste(i)">{{item}}</label></div>
+                    <div class="col-md-10"  style="padding-left: 18px;">
+                        <label [ngClass]="item.hidden ? 'oculto' : ''" class="legenda" >{{item.key}}</label>
                     </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 } @placeholder (minimum 1000ms) {
     <ngx-skeleton-loader [theme]="{ height: '366px'}" />
 }
