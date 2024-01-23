@@ -2,9 +2,7 @@ import { CreateClienteRequest } from './requests/create-cliente.request';
 import { PaginationResult } from './../../structure/response.model';
 import { Injectable } from "@angular/core";
 import { AppClient } from "../../app-client";
-import { Observable } from "rxjs";
-import { CreateUserRequest } from "../usuarios-endpoint/requests/create-user.request";
-import { CreateUserResponse } from "../usuarios-endpoint/responses/create-user.response";
+import { Observable, map } from "rxjs";
 import { DTO } from "../../structure/response.model";
 import { HttpParams } from "@angular/common/http";
 import { ClienteResponse } from './responses/clientes.response';
@@ -30,6 +28,12 @@ export class ClientesApiService {
         return this.appClient.HttpGet<PaginationResult<ClienteResponse>>(`clientes/${pagenumber}/${pageSize}`, { 
             params: params
         });
+    }
+
+    public getMelhoresClientes(): Observable<ClienteResponse[]> {
+        return this.appClient.HttpGet<PaginationResult<ClienteResponse>>(`clientes/melhores/${1}/${5}`).pipe(
+            map(response => response.content.items)
+        );
     }
 
     public getClientePorId(id: string): Observable<DTO<ClienteResponse>> {

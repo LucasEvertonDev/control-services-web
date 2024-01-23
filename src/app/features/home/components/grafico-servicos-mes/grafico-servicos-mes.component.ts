@@ -14,6 +14,7 @@ export class GraficoServicosMesComponent implements AfterViewInit {
     
   }
 
+  
   private data = {
     labels: [
       'Red',
@@ -36,7 +37,17 @@ export class GraficoServicosMesComponent implements AfterViewInit {
     setTimeout(() => {
       var c = new Chart(this.myChart.nativeElement.getContext('2d'), {
         type: 'doughnut',
-        data: this.data
+        data: this.data,
+        options: {
+          layout: {
+            autoPadding: true,
+          },
+          plugins: {
+            legend: {
+              position: 'right',
+            }
+          }
+        }
       });
     }, 1000);
   }
