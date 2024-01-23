@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
-import { Observable, defer, fromEvent, of, switchMap } from 'rxjs';
-Chart.register(...registerables);
+import { AfterViewInit, Component, Renderer2, ViewChild } from '@angular/core';
+import { ChartDataset, ChartOptions } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-grafico-servicos-mes',
@@ -9,46 +8,49 @@ Chart.register(...registerables);
   styleUrl: './grafico-servicos-mes.component.scss'
 })
 export class GraficoServicosMesComponent implements AfterViewInit {
-  @ViewChild('myChart') myChart!: ElementRef;
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   constructor(private renderer: Renderer2) {
     
   }
 
-  
-  private data = {
-    labels: [
-      'Red',
-      'Blue',
-      'Yellow'
-    ],
-    datasets: [{
-      label: 'My First Dataset',
-      data: [300, 50, 100],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
-      hoverOffset: 4
-    }]
+  public doughnutChartLabels: string[] = [ 'Download Sales', 'In-Store Sales', 'Mail-Order Sales' ];
+  public doughnutChartDatasets: ChartDataset[] = [{
+    label: 'Número de Atendimentos',
+    data: [14, 30, 49],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ]
+  }];
+ 
+  public doughnutChartOptions: ChartOptions = {
+    responsive: true
   };
+ 
+  Teste(posicao: number) {
+    this.doughnutChartDatasets[0].data.splice(posicao, 1);
+    this.chart?.chart?.update()
+  }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => {
-      var c = new Chart(this.myChart.nativeElement.getContext('2d'), {
-        type: 'doughnut',
-        data: this.data,
-        options: {
-          layout: {
-            autoPadding: true,
-          },
-          plugins: {
-            legend: {
-              position: 'right',
-            }
-          }
-        }
-      });
-    }, 1000);
+    // setTimeout(() => {
+    //   var c = new Chart(this.myChart.nativeElement.getContext('2d'), {
+    //     type: 'doughnut',
+    //     data: this.data,
+    //     options: {
+    //       layout: {
+    //         autoPadding: true,
+    //       },
+    //       plugins: {
+    //         legend: {
+    //           position: 'right',
+    //         }
+    //       }
+    //     }
+    //   });
+    // }, 1000);
   }
 }
+
+

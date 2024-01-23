@@ -29,6 +29,7 @@ registerLocaleData(localePt);
     LayoutModule,
     MatDialogModule,
     MatDividerModule,
+    
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },

@@ -1,8 +1,18 @@
 @defer {
     <div class="card">
         <div class="card-body">
-            <label class="card-title">Melhores Serviços</label>
-            <canvas #myChart height="500" ></canvas>
+            <div class="col-md-6">
+                <canvas baseChart
+                    [labels]="doughnutChartLabels"
+                    [datasets]="doughnutChartDatasets"
+                    [options]="doughnutChartOptions"
+                    [legend]="false"
+                    [type]="'doughnut'">
+                </canvas>
+            </div>
+            <div class="col-md-6" >
+                <label *ngFor="let item of doughnutChartLabels; let i = index" (click)="Teste(i)">{{item}}</label>
+            </div>
         </div>
     </div>
 } @placeholder (minimum 1000ms) {
