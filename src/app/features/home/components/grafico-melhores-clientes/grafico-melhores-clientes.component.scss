@@ -1,0 +1,33 @@
+.legenda.oculto {
+    text-decoration: line-through;
+}
+
+.class-temp {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+}
+
+.label_color {
+    height: 16px; /* Ajuste a altura do quadrado conforme necessário */
+    background-color: #3498db; /* Cor de fundo do quadrado */
+    border: 1px solid #eee; /* Cor da borda do quadrado */
+    width: 40px;
+    display: inline-block;
+}
+
+.row-legenda {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.col-legenda {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+}
