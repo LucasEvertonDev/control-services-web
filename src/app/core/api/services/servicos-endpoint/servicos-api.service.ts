@@ -1,7 +1,7 @@
 import { PaginationResult } from '../../structure/response.model';
 import { Injectable } from "@angular/core";
 import { AppClient } from "../../app-client";
-import { Observable } from "rxjs";
+import { Observable, map } from "rxjs";
 import { DTO } from "../../structure/response.model";
 import { HttpParams } from "@angular/common/http";
 import { ServicoResponse } from './responses/servicos.response';
@@ -40,5 +40,11 @@ export class ServicoApiService {
 
     public updateServico(id: string, updateServicoRequest: UpdateServicoRequest): Observable<DTO<UpdateServicoResponse>> {
         return this.appClient.HttpPut<UpdateServicoResponse>(`servicos/${id}`, updateServicoRequest, {});
+    }
+
+    public getMelhoresServicos(): Observable<ServicoResponse[]> {
+        return this.appClient.HttpGet<PaginationResult<ServicoResponse>>(`servicos/melhores/${1}/${5}`).pipe(
+            map(response => response.content.items)
+        );
     }
 }

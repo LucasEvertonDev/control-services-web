@@ -33,7 +33,7 @@ export class GraficoMelhoresClientesComponent {
         })
 
         this.doughnutChartDatasets = [{
-          label: 'Número de Atendimentos:',
+          label: 'Número de Atendimentos',
           data: this.valores.map(ma => ma.valor),
           backgroundColor: this.valores.map(ma => ma.color)
         }];
@@ -47,15 +47,18 @@ export class GraficoMelhoresClientesComponent {
   }
 
   legendaClick(posicao: number, item: string) {
-    this.valores[posicao].hidden = !this.valores[posicao].hidden;
+    var elemento = this.valores.filter(filter => filter.key === item)[0];
+    elemento.hidden = !elemento.hidden;
 
     this.doughnutChartDatasets = [{
-      label: 'Número de Serviços:',
+      label: 'Número de Atendimentos',
       data: this.valores.filter((item) => !item.hidden).map(ma => ma.valor),
       backgroundColor: this.valores.filter((item) => !item.hidden).map(ma => ma.color)
-    }]
+    }];
 
-    this.chart?.chart?.update()
+    this.doughnutChartLabels = this.valores.filter((item) => !item.hidden).map(ma => ma.key);
+
+    this.chart?.chart?.update();
   }
   
   private getColors(): string[] {
