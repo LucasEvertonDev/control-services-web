@@ -12,7 +12,7 @@
     height: 16px; /* Ajuste a altura do quadrado conforme necessário */
     background-color: #3498db; /* Cor de fundo do quadrado */
     border: 1px solid #eee; /* Cor da borda do quadrado */
-    width: 40px;
+    min-width: 40px !important;
     display: inline-block;
 }
 
