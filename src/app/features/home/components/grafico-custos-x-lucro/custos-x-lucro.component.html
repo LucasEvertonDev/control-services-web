@@ -1,0 +1,14 @@
+@defer {
+    <div class="card" *ngIf="this.barChartDatasets">
+        <div class="card-body row">
+            <div class="col-md-12 col-xs-12">
+                <label class="card-title">Ganhos x Gastos</label>
+                <canvas baseChart [datasets]="barChartDatasets" height="70" [labels]="barChartLabels"
+                    [options]="barChartOptions" [type]="'bar'">
+                </canvas>
+            </div>
+        </div>
+    </div>
+} @placeholder (minimum 1000ms) {
+    <ngx-skeleton-loader [theme]="{ height: '366px'}" />
+}

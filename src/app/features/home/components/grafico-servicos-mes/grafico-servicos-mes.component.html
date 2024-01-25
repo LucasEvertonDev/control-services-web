@@ -1,8 +1,8 @@
 @defer {
-<div class="card">
+<div class="card" *ngIf="this.valores">
     <div class="card-body row">
         <div class="col-md-6 col-xs-12">
-            <label class="card-title">Serviços mais Vendidos</label>
+            <label class="card-title">Serviços mais Pedidos</label>
             <canvas baseChart [labels]="doughnutChartLabels" [datasets]="doughnutChartDatasets"
                 [options]="doughnutChartOptions" [legend]="false" [type]="'doughnut'">
             </canvas>

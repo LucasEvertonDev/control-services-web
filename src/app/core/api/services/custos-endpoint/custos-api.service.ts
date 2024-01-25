@@ -8,6 +8,7 @@ import { CreateCustoRequest } from "./request/create-custo.request";
 import { CreateCustoResponse } from "./response/create-custo-response";
 import { UpdateCustoRequest } from "./request/update-custo.request";
 import { UpdateCustoResponse } from "./response/update-custo.response";
+import { GastosXLucroResponse } from "./response/gastos-x-lucro.response";
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +36,10 @@ export class CustosApiService {
 
     public getCustoPorId(id: string): Observable<DTO<CustosResponse>> {
         return this.appClient.HttpGet<CustosResponse>(`custos/${id}`);
+    }
+
+    public getGastosXLucro(): Observable<DTO<GastosXLucroResponse[]>> {
+        return this.appClient.HttpGet<GastosXLucroResponse[]>(`custos/gastosxlucro`);
     }
 
     public updateCusto(id: string, updateCustoRequest: UpdateCustoRequest): Observable<DTO<UpdateCustoResponse>> {
