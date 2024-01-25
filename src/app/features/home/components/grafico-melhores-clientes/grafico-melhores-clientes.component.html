@@ -1,7 +1,7 @@
 @defer {
-    <div class="card mb-4" *ngIf="this.valores">
+    <div class="card" *ngIf="this.valores">
         <div class="card-body row">
-            <div class="col-md-6 col-xs-12 mb-4">
+            <div class="col-md-6 col-xs-12">
                 <label class="card-title">Melhores Clientes</label>
                 <canvas baseChart [labels]="doughnutChartLabels" [datasets]="doughnutChartDatasets"
                     [options]="doughnutChartOptions" [legend]="false" [type]="'doughnut'">

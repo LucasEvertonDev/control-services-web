@@ -14,6 +14,7 @@ import { CardComponent } from './components/card/card.component';
 import { GraficoServicosMesComponent } from './components/grafico-servicos-mes/grafico-servicos-mes.component';
 import { GraficoMelhoresClientesComponent } from './components/grafico-melhores-clientes/grafico-melhores-clientes.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CustosXLucroComponent } from './components/custos-x-lucro/custos-x-lucro.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NgChartsModule } from 'ng2-charts';
     CalendarioComponent, 
     CardComponent,
     GraficoServicosMesComponent,
-    GraficoMelhoresClientesComponent
+    GraficoMelhoresClientesComponent,
+    CustosXLucroComponent
   ],
   imports: [
     CommonModule,
