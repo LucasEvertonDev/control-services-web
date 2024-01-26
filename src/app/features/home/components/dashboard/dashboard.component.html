@@ -1,6 +1,6 @@
-<!-- <button (click)="sendToPdf()">
-    testpdf</button> -->
-<div class="item" id="">
+<button (click)="sendToPdf()">
+    testpdf</button>
+<div class="item" id="" #pdfContent>
     <div class="row">
         <app-card [themeConfig]="{ height: '120px'}" class="col-md-3 mb-4 col-xs-12" [totalizadores]="true">
             <label>LUCRO: {{date | date: 'MM/YY'}}</label>

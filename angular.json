@@ -108,7 +108,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/assets/theme/assets/js/main.js"
+              "src/assets/theme/assets/js/main.js",
+              "./node_modules/html2pdf.js/dist/html2pdf.bundle.min.js"
             ]
           }
         }
